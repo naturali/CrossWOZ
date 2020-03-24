@@ -1,0 +1,31 @@
+{
+  "景点": {
+    "ID": 2,
+    "GroupName": "景点",
+    "SlotNames": {
+      "名称": true,
+      "地址": true,
+      "电话": true,
+      "评分": true
+    }
+  },
+  "酒店": {
+    "ID": 3,
+    "GroupName": "酒店",
+    "SlotNames": {
+      "名称": true,
+      "电话": true
+    }
+  },
+  "餐馆": {
+    "ID": 1,
+    "GroupName": "餐馆",
+    "SlotNames": {
+      "人均消费": true,
+      "名称": true,
+      "周边景点": true,
+      "推荐菜": true,
+      "营业时间": true
+    }
+  }
+}
