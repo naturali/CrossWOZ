@@ -7,6 +7,7 @@ import (
 	"path"
 	"sort"
 	"strconv"
+	"strings"
 )
 
 type SelectedResult []interface{}
@@ -60,6 +61,16 @@ type Slot struct {
 	Filled bool // TODO what's this?
 }
 
+func (slot *Slot) IsMulti(dialogID string, i int) bool {
+	if slot.Values.Multi != nil {
+		return true
+	} else if slot.Values.Single != nil {
+		return false
+	} else {
+		log.Fatalf("both single and multi are nil, dialog: %s %d 'th slot, name: %s.%s", dialogID, i, slot.Group, slot.Name)
+		return false
+	}
+}
 func ParseSlot(rawSlot []interface{}, dialogID string, idx int) *Slot {
 	slot := &Slot{
 		Values: new(SlotValues),
@@ -115,8 +126,11 @@ type Dialogue struct {
 	FilledSlots []*Slot // filled slots after dialogues? TODO check
 	DialogueID  string  `json:"dialogue_id"`
 	// TODO 一个description相当于一个intent？
-	TaskDescription []string `json:"task description"`
-	Type            string   `json:"type"`
+	TaskDescription []string        `json:"task description"`
+	Type            string          `json:"type"`
+	Goal            [][]interface{} `json:"-"`
+	Messages        []*Message      `json:"-"`
+	FinalGoal       [][]interface{} `json:"-"`
 }
 
 // if slot names are the same, merge different slot groups by group name
@@ -180,7 +194,9 @@ func groupSlots(slotGroups map[string]*SlotGroup, dir string, inputFileName stri
 			for _, savedGroup := range groups[rawGroup.GroupName] {
 				if CompareMergedSlotGroupsBySlots(group, savedGroup) {
 					savedGroup.IDs = append(savedGroup.IDs, group.IDs...)
+					sort.Ints(savedGroup.IDs)
 					savedGroup.SrcDialogues = append(savedGroup.SrcDialogues, group.SrcDialogues...)
+					sort.Strings(savedGroup.SrcDialogues)
 					needAppend = false
 				}
 			}
@@ -191,8 +207,26 @@ func groupSlots(slotGroups map[string]*SlotGroup, dir string, inputFileName stri
 
 		}
 	}
+	var groupList = make([]struct {
+		Name   string
+		Groups []*MergedSlotGroup
+	}, len(groups))
+	i := 0
+	for k := range groups {
+		sort.Slice(groups[k], func(i, j int) bool {
+			iIDs, _ := json.Marshal(groups[k][i].IDs)
+			jIDS, _ := json.Marshal(groups[k][j].IDs)
+			return string(iIDs) < string(jIDS)
+		})
+		groupList[i].Name = k
+		groupList[i].Groups = groups[k]
+		i++
+	}
+	sort.Slice(groupList, func(i, j int) bool {
+		return groupList[i].Name < groupList[j].Name
+	})
 	fileName := path.Join(dir, "processed_slots_grouped_"+inputFileName+".json")
-	b, err := json.MarshalIndent(groups, "", "  ")
+	b, err := json.MarshalIndent(groupList, "", "  ")
 	if err != nil {
 		log.Fatal("Failed to marshal slots, err:", err)
 	}
@@ -214,34 +248,102 @@ func groupSlots(slotGroups map[string]*SlotGroup, dir string, inputFileName stri
 	}
 }
 
-func main() {
-	dir := "data/crosswoz/"
-	inputFileName := "test"
-	b, err := ioutil.ReadFile(path.Join(dir, inputFileName+".json"))
-	if err != nil {
-		log.Fatal("Failed to read file, err:", err)
+func listDomainCombinations(rawDialogues map[string]*RawDialogue, inputFile string) {
+	type SlotInfo struct {
+		Domain   string
+		SlotName string
+		Multi    bool
 	}
-	var rawDialogues map[string]*RawDialogue
-	if err := json.Unmarshal(b, &rawDialogues); err != nil {
-		log.Fatal("Failed to unmarshal rawDialogues, err:", err)
+
+	type Goal struct {
+		RequiredSlots []*SlotInfo `json:"-"`
+		Dialogues     []string
 	}
-	var dialogues []*Dialogue
-	slotGroups := make(map[string]*SlotGroup)
+
+	var goalKinds = make(map[string]*Goal)
 	for dialogID, rawDialogue := range rawDialogues {
-		dialogue := &Dialogue{
-			UserTurns:       int(rawDialogue.SysUsr[0]),
-			SysTurns:        int(rawDialogue.SysUsr[1]),
-			DialogueID:      dialogID,
-			TaskDescription: rawDialogue.TaskDescription,
-			Type:            rawDialogue.Type,
+		var requiredSlots []*SlotInfo
+		for i, rawSlot := range rawDialogue.Goal {
+			slot := ParseSlot(rawSlot, dialogID, i)
+			requiredSlots = append(requiredSlots, &SlotInfo{
+				Domain:   slot.Group,
+				SlotName: slot.Name,
+				Multi:    slot.IsMulti(dialogID, i),
+			})
 		}
+		sort.Slice(requiredSlots, func(i, j int) bool {
+			if requiredSlots[i].Domain == requiredSlots[j].Domain {
+				return requiredSlots[i].SlotName < requiredSlots[j].SlotName
+			}
+			return requiredSlots[i].Domain < requiredSlots[j].Domain
+		})
+		b, _ := json.Marshal(requiredSlots)
+		s := string(b)
+
+		domains := make(map[string]bool)
+		for _, slot := range requiredSlots {
+			domains[slot.Domain] = true
+		}
+		var domainList []string
+		for domain := range domains {
+			domainList = append(domainList, domain)
+		}
+		sort.Strings(domainList)
+		s = strings.Join(domainList, ",")
+
+		if _, ok := goalKinds[s]; !ok {
+			goalKinds[s] = &Goal{
+				RequiredSlots: requiredSlots,
+				Dialogues:     []string{dialogID},
+			}
+		} else {
+			goalKinds[s].Dialogues = append(goalKinds[s].Dialogues, dialogID)
+		}
+	}
+
+	var domainCombinations = make([]struct {
+		Domains   string `json:"domains"`
+		Dialogues string `json:"-"`
+		DialogCnt int    `json:"dialogs"`
+	}, len(goalKinds))
+	i := 0
+	sum := 0
+	for s, goal := range goalKinds {
+		domainCombinations[i].Domains = s
+		domainCombinations[i].Dialogues = strings.Join(goal.Dialogues, ",")
+		domainCombinations[i].DialogCnt = len(goal.Dialogues)
+		sum += len(goal.Dialogues)
+		i++
+	}
+	log.Println(sum)
+	sort.Slice(domainCombinations, func(i, j int) bool {
+		if domainCombinations[i].DialogCnt == domainCombinations[j].DialogCnt {
+			return domainCombinations[i].Domains < domainCombinations[j].Domains
+		}
+		return domainCombinations[i].DialogCnt > domainCombinations[j].DialogCnt
+	})
+	b, _ := json.MarshalIndent(domainCombinations, "", "  ")
+	ioutil.WriteFile("generate_framely/demo/domain_combinations_"+inputFile+".json", b, 0666)
+}
+
+func ExtractExpressions() {
+
+}
+
+func TransformDialogue(rawDialogue *RawDialogue) *Dialogue {
+	return nil
+}
+
+func AnalyseGoals(dialogs []*Dialogue, dir string, inputFile string) {
+	slotGroups := make(map[string]*SlotGroup)
+	for _, rawDialogue := range dialogs {
+		dialogID := rawDialogue.DialogueID
 		slotsGoal := make(map[string]bool)
 		for i, rawSlot := range rawDialogue.Goal {
 			slot := ParseSlot(rawSlot, dialogID, i)
 			if slot.Filled {
 				log.Printf("!slot in goal should not be filled, dialog: %s, %d 'th slot", dialogID, i)
 			}
-			dialogue.Slots = append(dialogue.Slots, slot)
 			slotsGoal[slot.Group+"."+slot.Name] = true
 			groupID := strconv.Itoa(slot.ID) + "." + slot.Group
 			if _, ok := slotGroups[groupID]; !ok {
@@ -257,13 +359,8 @@ func main() {
 			slotIdentifier := SlotIdentifier{
 				FullName: slot.Group + "." + slot.Name,
 			}
-			if slot.Values.Multi != nil {
-				slotIdentifier.IsMulti = true
-			} else if slot.Values.Single != nil {
-				slotIdentifier.IsMulti = false
-			} else {
-				log.Fatalf("both single and multi are nil, dialog: %s %d 'th slot, name: %s.%s", dialogID, i, slot.Group, slot.Name)
-			}
+			slotIdentifier.IsMulti = slot.IsMulti(dialogID, i)
+
 			if saved, ok := slotGroups[groupID].SlotNames[slot.Name]; ok {
 				log.Printf("duplicate slot? %s in group: %s", slot.Name, slot.Group)
 				if saved.IsMulti != slotIdentifier.IsMulti || saved.FullName != slotIdentifier.FullName {
@@ -280,19 +377,52 @@ func main() {
 			if !slot.Filled {
 				log.Printf("!slot in final goal should be filled, dialog: %s, %d 'th slot, slot: %s.%s", dialogID, i, slot.Group, slot.Name)
 			}
-			dialogue.FilledSlots = append(dialogue.FilledSlots, slot)
 			slotsFinalGoal[slot.Group+"."+slot.Name] = true
 		}
 		if len(slotsFinalGoal) != len(slotsGoal) {
 			log.Fatalf("goal and final goal slot size are different, dialog: %s, %d %d", dialogID, len(slotsFinalGoal), len(slotGroups))
 		}
-		for k := range slotsFinalGoal {
-			if _, ok := slotsGoal[k]; !ok {
-				log.Fatalf("final goal slot not found in goal: %s, dialog: %s", k, dialogID)
+	}
+
+	groupSlots(slotGroups, dir, inputFile)
+}
+
+func main() {
+	dir := "data/crosswoz/"
+	inputFileName := "test"
+	b, err := ioutil.ReadFile(path.Join(dir, inputFileName+".json"))
+	if err != nil {
+		log.Fatal("Failed to read file, err:", err)
+	}
+	var rawDialogues map[string]*RawDialogue
+	if err := json.Unmarshal(b, &rawDialogues); err != nil {
+		log.Fatal("Failed to unmarshal rawDialogues, err:", err)
+	}
+	listDomainCombinations(rawDialogues, inputFileName)
+	var dialogues []*Dialogue
+	for dialogID, rawDialogue := range rawDialogues {
+		dialogue := &Dialogue{
+			UserTurns:       int(rawDialogue.SysUsr[0]),
+			SysTurns:        int(rawDialogue.SysUsr[1]),
+			DialogueID:      dialogID,
+			TaskDescription: rawDialogue.TaskDescription,
+			Type:            rawDialogue.Type,
+			Goal:            rawDialogue.Goal,
+			FinalGoal:       rawDialogue.FinalGoal,
+		}
+		for i, rawSlot := range rawDialogue.Goal {
+			slot := ParseSlot(rawSlot, dialogID, i)
+			if slot.Filled {
+				log.Printf("!slot in goal should not be filled, dialog: %s, %d 'th slot", dialogID, i)
 			}
+			dialogue.Slots = append(dialogue.Slots, slot)
 		}
 		dialogues = append(dialogues, dialogue)
 	}
+	sort.Slice(dialogues, func(i, j int) bool {
+		return dialogues[i].DialogueID < dialogues[j].DialogueID
+	})
+	AnalyseGoals(dialogues, dir, inputFileName)
 	fileName := path.Join(dir, "processed_"+inputFileName+".json")
 	b, err = json.MarshalIndent(dialogues, "", "  ")
 	if err != nil {
@@ -304,5 +434,4 @@ func main() {
 		log.Println("wrote dialogues to file:", fileName)
 	}
 
-	groupSlots(slotGroups, dir, inputFileName)
 }

@@ -1,0 +1,98 @@
+[
+  {
+    "domains": "景点,酒店,餐馆",
+    "dialogs": 2170
+  },
+  {
+    "domains": "酒店,餐馆",
+    "dialogs": 408
+  },
+  {
+    "domains": "景点,酒店",
+    "dialogs": 371
+  },
+  {
+    "domains": "景点,餐馆",
+    "dialogs": 366
+  },
+  {
+    "domains": "地铁,景点,酒店,餐馆",
+    "dialogs": 362
+  },
+  {
+    "domains": "出租,景点,酒店,餐馆",
+    "dialogs": 350
+  },
+  {
+    "domains": "景点",
+    "dialogs": 154
+  },
+  {
+    "domains": "餐馆",
+    "dialogs": 148
+  },
+  {
+    "domains": "酒店",
+    "dialogs": 132
+  },
+  {
+    "domains": "出租,酒店,餐馆",
+    "dialogs": 90
+  },
+  {
+    "domains": "地铁,景点,餐馆",
+    "dialogs": 86
+  },
+  {
+    "domains": "出租,景点,餐馆",
+    "dialogs": 81
+  },
+  {
+    "domains": "出租,景点,酒店",
+    "dialogs": 72
+  },
+  {
+    "domains": "地铁,酒店,餐馆",
+    "dialogs": 65
+  },
+  {
+    "domains": "地铁,景点,酒店",
+    "dialogs": 60
+  },
+  {
+    "domains": "出租,地铁,景点,酒店,餐馆",
+    "dialogs": 43
+  },
+  {
+    "domains": "出租,地铁,景点,酒店",
+    "dialogs": 20
+  },
+  {
+    "domains": "出租,地铁,景点,餐馆",
+    "dialogs": 16
+  },
+  {
+    "domains": "出租,地铁,酒店,餐馆",
+    "dialogs": 13
+  },
+  {
+    "domains": "出租,地铁,餐馆",
+    "dialogs": 1
+  },
+  {
+    "domains": "地铁,景点",
+    "dialogs": 1
+  },
+  {
+    "domains": "出租,地铁,景点",
+    "dialogs": 1
+  },
+  {
+    "domains": "出租,景点",
+    "dialogs": 1
+  },
+  {
+    "domains": "地铁,餐馆",
+    "dialogs": 1
+  }
+]
