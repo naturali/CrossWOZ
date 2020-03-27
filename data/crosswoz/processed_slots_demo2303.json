@@ -1,31 +1,73 @@
 {
-  "景点": {
-    "ID": 2,
-    "GroupName": "景点",
-    "SlotNames": {
-      "名称": true,
-      "地址": true,
-      "电话": true,
-      "评分": true
-    }
-  },
-  "酒店": {
-    "ID": 3,
-    "GroupName": "酒店",
-    "SlotNames": {
-      "名称": true,
-      "电话": true
-    }
-  },
-  "餐馆": {
+  "1.餐馆": {
     "ID": 1,
     "GroupName": "餐馆",
     "SlotNames": {
-      "人均消费": true,
-      "名称": true,
-      "周边景点": true,
-      "推荐菜": true,
-      "营业时间": true
+      "人均消费": {
+        "FullName": "餐馆.人均消费",
+        "IsMulti": false
+      },
+      "名称": {
+        "FullName": "餐馆.名称",
+        "IsMulti": false
+      },
+      "周边景点": {
+        "FullName": "餐馆.周边景点",
+        "IsMulti": true
+      },
+      "推荐菜": {
+        "FullName": "餐馆.推荐菜",
+        "IsMulti": true
+      },
+      "营业时间": {
+        "FullName": "餐馆.营业时间",
+        "IsMulti": false
+      }
+    },
+    "SrcDialogues": {
+      "2303": true
+    }
+  },
+  "2.景点": {
+    "ID": 2,
+    "GroupName": "景点",
+    "SlotNames": {
+      "名称": {
+        "FullName": "景点.名称",
+        "IsMulti": false
+      },
+      "地址": {
+        "FullName": "景点.地址",
+        "IsMulti": false
+      },
+      "电话": {
+        "FullName": "景点.电话",
+        "IsMulti": false
+      },
+      "评分": {
+        "FullName": "景点.评分",
+        "IsMulti": false
+      }
+    },
+    "SrcDialogues": {
+      "2303": true
+    }
+  },
+  "3.酒店": {
+    "ID": 3,
+    "GroupName": "酒店",
+    "SlotNames": {
+      "名称": {
+        "FullName": "酒店.名称",
+        "IsMulti": false
+      },
+      "电话": {
+        "FullName": "酒店.电话",
+        "IsMulti": false
+      }
+    },
+    "SrcDialogues": {
+      "2303": true
     }
   }
 }

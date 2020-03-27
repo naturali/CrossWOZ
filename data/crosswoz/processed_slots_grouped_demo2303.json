@@ -1,0 +1,94 @@
+[
+  {
+    "Name": "景点",
+    "Groups": [
+      {
+        "IDs": [
+          2
+        ],
+        "GroupName": "景点",
+        "Slots": [
+          {
+            "FullName": "景点.名称",
+            "IsMulti": false
+          },
+          {
+            "FullName": "景点.地址",
+            "IsMulti": false
+          },
+          {
+            "FullName": "景点.电话",
+            "IsMulti": false
+          },
+          {
+            "FullName": "景点.评分",
+            "IsMulti": false
+          }
+        ],
+        "SrcDialogues": [
+          "2303"
+        ]
+      }
+    ]
+  },
+  {
+    "Name": "酒店",
+    "Groups": [
+      {
+        "IDs": [
+          3
+        ],
+        "GroupName": "酒店",
+        "Slots": [
+          {
+            "FullName": "酒店.名称",
+            "IsMulti": false
+          },
+          {
+            "FullName": "酒店.电话",
+            "IsMulti": false
+          }
+        ],
+        "SrcDialogues": [
+          "2303"
+        ]
+      }
+    ]
+  },
+  {
+    "Name": "餐馆",
+    "Groups": [
+      {
+        "IDs": [
+          1
+        ],
+        "GroupName": "餐馆",
+        "Slots": [
+          {
+            "FullName": "餐馆.人均消费",
+            "IsMulti": false
+          },
+          {
+            "FullName": "餐馆.名称",
+            "IsMulti": false
+          },
+          {
+            "FullName": "餐馆.周边景点",
+            "IsMulti": true
+          },
+          {
+            "FullName": "餐馆.推荐菜",
+            "IsMulti": true
+          },
+          {
+            "FullName": "餐馆.营业时间",
+            "IsMulti": false
+          }
+        ],
+        "SrcDialogues": [
+          "2303"
+        ]
+      }
+    ]
+  }
+]
