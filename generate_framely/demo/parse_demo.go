@@ -7,6 +7,7 @@ import (
 	"github.com/framely/sgdnlu/generate_framely/sgd"
 	"io/ioutil"
 	"log"
+	"os"
 	"path"
 	"sort"
 	"strconv"
@@ -202,8 +203,8 @@ func CompareMergedSlotGroupsBySlots(group1, group2 *MergedSlotGroup) bool {
 	return same
 }
 
-func groupSlots(slotGroups map[string]*SlotGroup, dir string, inputFileName string) {
-	var groups = make(map[string][]*MergedSlotGroup)
+func groupSlots(slotGroups map[string]*SlotGroup, inputDir string, inputFileName string) (groups map[string][]*MergedSlotGroup) {
+	groups = make(map[string][]*MergedSlotGroup)
 	for _, rawGroup := range slotGroups {
 		group := NewMergedSlotGroup(rawGroup)
 		if _, ok := groups[rawGroup.GroupName]; !ok {
@@ -244,7 +245,7 @@ func groupSlots(slotGroups map[string]*SlotGroup, dir string, inputFileName stri
 	sort.Slice(groupList, func(i, j int) bool {
 		return groupList[i].Name < groupList[j].Name
 	})
-	fileName := path.Join(dir, "processed_slots_grouped_"+inputFileName+".json")
+	fileName := path.Join(inputDir, "processed_slots_grouped_"+inputFileName+".json")
 	b, err := json.MarshalIndent(groupList, "", "  ")
 	if err != nil {
 		log.Fatal("Failed to marshal slots, err:", err)
@@ -255,7 +256,7 @@ func groupSlots(slotGroups map[string]*SlotGroup, dir string, inputFileName stri
 		log.Println("wrote slots to", fileName)
 	}
 
-	fileName = path.Join(dir, "processed_slots_"+inputFileName+".json")
+	fileName = path.Join(inputDir, "processed_slots_"+inputFileName+".json")
 	b, err = json.MarshalIndent(slotGroups, "", "  ")
 	if err != nil {
 		log.Fatal("Failed to marshal slots, err:", err)
@@ -265,12 +266,11 @@ func groupSlots(slotGroups map[string]*SlotGroup, dir string, inputFileName stri
 	} else {
 		log.Println("wrote slots to", fileName)
 	}
-
-	GenerateIntents(groups, dir, inputFileName)
+	return groups
 }
 
 // 把每个domain当成一个skill
-func GenerateIntents(groups map[string][]*MergedSlotGroup, dir string, inputFileName string) {
+func GenerateIntents(groups map[string][]*MergedSlotGroup, inputFileName string, outputDir string) {
 	var intents []*p.IntentMeta
 	for _, group := range groups {
 		intent := &p.IntentMeta{
@@ -333,7 +333,8 @@ func GenerateIntents(groups map[string][]*MergedSlotGroup, dir string, inputFile
 		Composites: []*p.IntentMeta{{}},
 		Intents:    intents,
 	}
-	fileName := path.Join(dir, "agent_"+inputFileName+".json")
+	os.MkdirAll(path.Join(outputDir, inputFileName), 0755)
+	fileName := path.Join(outputDir, inputFileName, "agent.json")
 	b, err := json.MarshalIndent(agent, "", "  ")
 	if err != nil {
 		log.Fatal("Failed to marshal agent, err:", err)
@@ -464,7 +465,7 @@ func (turn *Message) RelatedSlots() *RelatedSlots {
 	return relatedSlots
 }
 
-func ExtractExpressions(dialogues []*Dialogue, dir string, inputFile string) {
+func ExtractExpressions(dialogues []*Dialogue, outputDir string, inputFile string) {
 	var expressions []*p.FramelyExpression
 	for _, dialog := range dialogues {
 		for _, msg := range dialog.Turns {
@@ -490,7 +491,8 @@ func ExtractExpressions(dialogues []*Dialogue, dir string, inputFile string) {
 			}
 		}
 	}
-	framely.OutputExpressions(expressions, dir, inputFile)
+	os.MkdirAll(path.Join(outputDir, inputFile), 0755)
+	framely.OutputExpressions(expressions, outputDir, inputFile)
 
 }
 
@@ -539,7 +541,7 @@ func TransformDialogue(dialogID string, rawDialogue *RawDialogue) *Dialogue {
 	return dialogue
 }
 
-func AnalyseGoals(dialogs []*Dialogue, dir string, inputFile string) {
+func AnalyseGoals(dialogs []*Dialogue, inputDir string, inputFile string) map[string][]*MergedSlotGroup {
 	slotGroups := make(map[string]*SlotGroup)
 	for _, rawDialogue := range dialogs {
 		dialogID := rawDialogue.DialogueID
@@ -589,14 +591,15 @@ func AnalyseGoals(dialogs []*Dialogue, dir string, inputFile string) {
 		}
 	}
 
-	groupSlots(slotGroups, dir, inputFile)
+	return groupSlots(slotGroups, inputDir, inputFile)
 }
 
 func main() {
-	dir := "data/crosswoz/"
-	inputFileName := "demo2303"
-	//inputFileName := "test"
-	b, err := ioutil.ReadFile(path.Join(dir, inputFileName+".json"))
+	inputDir := "data/crosswoz/"
+	//inputFileName := "demo2303"
+	inputFileName := "test"
+	outputDir := "agents"
+	b, err := ioutil.ReadFile(path.Join(inputDir, inputFileName+".json"))
 	if err != nil {
 		log.Fatal("Failed to read file, err:", err)
 	}
@@ -613,8 +616,11 @@ func main() {
 	sort.Slice(dialogues, func(i, j int) bool {
 		return dialogues[i].DialogueID < dialogues[j].DialogueID
 	})
-	AnalyseGoals(dialogues, dir, inputFileName)
-	fileName := path.Join(dir, "processed_"+inputFileName+".json")
+	mergedSlotGroups := AnalyseGoals(dialogues, inputDir, inputFileName)
+
+	GenerateIntents(mergedSlotGroups, inputFileName, outputDir)
+
+	fileName := path.Join(inputDir, "processed_"+inputFileName+".json")
 	b, err = json.MarshalIndent(dialogues, "", "  ")
 	if err != nil {
 		log.Fatal("Failed to marshal dialogues, err:", err)
@@ -625,5 +631,5 @@ func main() {
 		log.Println("wrote dialogues to file:", fileName)
 	}
 
-	ExtractExpressions(dialogues, dir, inputFileName)
+	ExtractExpressions(dialogues, outputDir, inputFileName)
 }
