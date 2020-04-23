@@ -5,43 +5,13 @@
     "agent_org": "CrossWOZ",
     "description": "generated from CrossWOZ data set"
   },
-  "entities": null,
-  "composites": null,
+  "entities": [
+    {}
+  ],
+  "composites": [
+    {}
+  ],
   "intents": [
-    {
-      "meta_id": "CrossWOZ.餐馆",
-      "name": "餐馆",
-      "type": "intent",
-      "slots": [
-        {
-          "attribute_id": "餐馆.人均消费",
-          "name": "餐馆.人均消费",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "餐馆.名称",
-          "name": "餐馆.名称",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "餐馆.周边景点",
-          "name": "餐馆.周边景点",
-          "allow_ask_slot": true,
-          "allow_multi_value": true
-        },
-        {
-          "attribute_id": "餐馆.推荐菜",
-          "name": "餐馆.推荐菜",
-          "allow_ask_slot": true,
-          "allow_multi_value": true
-        },
-        {
-          "attribute_id": "餐馆.营业时间",
-          "name": "餐馆.营业时间",
-          "allow_ask_slot": true
-        }
-      ]
-    },
     {
       "meta_id": "CrossWOZ.景点",
       "name": "景点",
@@ -82,6 +52,40 @@
         {
           "attribute_id": "酒店.电话",
           "name": "酒店.电话",
+          "allow_ask_slot": true
+        }
+      ]
+    },
+    {
+      "meta_id": "CrossWOZ.餐馆",
+      "name": "餐馆",
+      "type": "intent",
+      "slots": [
+        {
+          "attribute_id": "餐馆.人均消费",
+          "name": "餐馆.人均消费",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "餐馆.名称",
+          "name": "餐馆.名称",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "餐馆.周边景点",
+          "name": "餐馆.周边景点",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "餐馆.推荐菜",
+          "name": "餐馆.推荐菜",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "餐馆.营业时间",
+          "name": "餐馆.营业时间",
           "allow_ask_slot": true
         }
       ]

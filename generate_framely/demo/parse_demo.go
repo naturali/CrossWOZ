@@ -274,17 +274,15 @@ func GenerateIntents(groups map[string][]*MergedSlotGroup, dir string, inputFile
 	var intents []*p.IntentMeta
 	for _, group := range groups {
 		intent := &p.IntentMeta{
-			MetaId:            "CrossWOZ." + group[0].GroupName,
-			Name:              group[0].GroupName,
-			FallbackResponses: nil,
-			Responses:         nil, // TODO
-			Type:              "intent",
-			PromptQuestion:    nil,
-			DataQueries:       nil,
-			NewSuggestHooks:   nil,
-			ContextIntents:    nil,
-			Src:               "",
-			ParentClassIds:    nil,
+			MetaId:          "CrossWOZ." + group[0].GroupName,
+			Name:            group[0].GroupName,
+			Responses:       nil, // TODO
+			Type:            "intent",
+			DataQueries:     nil,
+			NewSuggestHooks: nil,
+			ContextIntents:  nil,
+			Src:             "",
+			ParentClassIds:  nil,
 		}
 		slotMap := make(map[string]bool)
 		for _, g := range group {
@@ -316,16 +314,24 @@ func GenerateIntents(groups map[string][]*MergedSlotGroup, dir string, inputFile
 				AllowSubtype:      false, // TODO
 			})
 		}
+		sort.Slice(intent.Slots, func(i, j int) bool {
+			return intent.Slots[i].Name < intent.Slots[j].Name
+		})
 		intents = append(intents, intent)
 	}
-	agent := framely.AgentFullDate{
-		AgentMeta: &p.DHLAgentMeta{
+	sort.Slice(intents, func(i, j int) bool {
+		return intents[i].Name < intents[j].Name
+	})
+	agent := p.Agent{
+		Agent: &p.DHLAgentMeta{
 			AgentId:     "CrossWOZ",
 			Name:        "CrossWOZ",
 			AgentOrg:    "CrossWOZ",
 			Description: "generated from CrossWOZ data set",
 		},
-		Intents: intents,
+		Entities:   []*p.BasicTypeMeta{{}},
+		Composites: []*p.IntentMeta{{}},
+		Intents:    intents,
 	}
 	fileName := path.Join(dir, "agent_"+inputFileName+".json")
 	b, err := json.MarshalIndent(agent, "", "  ")
@@ -589,6 +595,7 @@ func AnalyseGoals(dialogs []*Dialogue, dir string, inputFile string) {
 func main() {
 	dir := "data/crosswoz/"
 	inputFileName := "demo2303"
+	//inputFileName := "test"
 	b, err := ioutil.ReadFile(path.Join(dir, inputFileName+".json"))
 	if err != nil {
 		log.Fatal("Failed to read file, err:", err)

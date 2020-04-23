@@ -5,355 +5,36 @@
     "agent_org": "CrossWOZ",
     "description": "generated from CrossWOZ data set"
   },
-  "entities": null,
-  "composites": null,
+  "entities": [
+    {}
+  ],
+  "composites": [
+    {}
+  ],
   "intents": [
     {
-      "meta_id": "CrossWOZ.餐馆",
-      "name": "餐馆",
+      "meta_id": "CrossWOZ.出租",
+      "name": "出租",
       "type": "intent",
       "slots": [
         {
-          "attribute_id": "餐馆.名称",
-          "name": "餐馆.名称",
+          "attribute_id": "出租.出发地",
+          "name": "出租.出发地",
           "allow_ask_slot": true
         },
         {
-          "attribute_id": "餐馆.电话",
-          "name": "餐馆.电话",
+          "attribute_id": "出租.目的地",
+          "name": "出租.目的地",
           "allow_ask_slot": true
         },
         {
-          "attribute_id": "餐馆.推荐菜",
-          "name": "餐馆.推荐菜",
-          "allow_ask_slot": true,
-          "allow_multi_value": true
-        },
-        {
-          "attribute_id": "餐馆.营业时间",
-          "name": "餐馆.营业时间",
+          "attribute_id": "出租.车型",
+          "name": "出租.车型",
           "allow_ask_slot": true
         },
         {
-          "attribute_id": "餐馆.评分",
-          "name": "餐馆.评分",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "餐馆.人均消费",
-          "name": "餐馆.人均消费",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "餐馆.周边景点",
-          "name": "餐馆.周边景点",
-          "allow_ask_slot": true,
-          "allow_multi_value": true
-        },
-        {
-          "attribute_id": "餐馆.周边酒店",
-          "name": "餐馆.周边酒店",
-          "allow_ask_slot": true,
-          "allow_multi_value": true
-        },
-        {
-          "attribute_id": "餐馆.周边餐馆",
-          "name": "餐馆.周边餐馆",
-          "allow_ask_slot": true,
-          "allow_multi_value": true
-        },
-        {
-          "attribute_id": "餐馆.地址",
-          "name": "餐馆.地址",
-          "allow_ask_slot": true
-        }
-      ]
-    },
-    {
-      "meta_id": "CrossWOZ.景点",
-      "name": "景点",
-      "type": "intent",
-      "slots": [
-        {
-          "attribute_id": "景点.周边景点",
-          "name": "景点.周边景点",
-          "allow_ask_slot": true,
-          "allow_multi_value": true
-        },
-        {
-          "attribute_id": "景点.周边酒店",
-          "name": "景点.周边酒店",
-          "allow_ask_slot": true,
-          "allow_multi_value": true
-        },
-        {
-          "attribute_id": "景点.周边餐馆",
-          "name": "景点.周边餐馆",
-          "allow_ask_slot": true,
-          "allow_multi_value": true
-        },
-        {
-          "attribute_id": "景点.门票",
-          "name": "景点.门票",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "景点.名称",
-          "name": "景点.名称",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "景点.地址",
-          "name": "景点.地址",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "景点.游玩时间",
-          "name": "景点.游玩时间",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "景点.电话",
-          "name": "景点.电话",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "景点.评分",
-          "name": "景点.评分",
-          "allow_ask_slot": true
-        }
-      ]
-    },
-    {
-      "meta_id": "CrossWOZ.酒店",
-      "name": "酒店",
-      "type": "intent",
-      "slots": [
-        {
-          "attribute_id": "酒店.酒店类型",
-          "name": "酒店.酒店类型",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-健身房",
-          "name": "酒店.酒店设施-健身房",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-棋牌室",
-          "name": "酒店.酒店设施-棋牌室",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-所有房间提供wifi",
-          "name": "酒店.酒店设施-所有房间提供wifi",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-早餐服务",
-          "name": "酒店.酒店设施-早餐服务",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-SPA",
-          "name": "酒店.酒店设施-SPA",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-免费市内电话",
-          "name": "酒店.酒店设施-免费市内电话",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-宽带上网",
-          "name": "酒店.酒店设施-宽带上网",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-残疾人设施",
-          "name": "酒店.酒店设施-残疾人设施",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-酒吧",
-          "name": "酒店.酒店设施-酒吧",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.周边餐馆",
-          "name": "酒店.周边餐馆",
-          "allow_ask_slot": true,
-          "allow_multi_value": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-室外游泳池",
-          "name": "酒店.酒店设施-室外游泳池",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-暖气",
-          "name": "酒店.酒店设施-暖气",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-国际长途电话",
-          "name": "酒店.酒店设施-国际长途电话",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-接站服务",
-          "name": "酒店.酒店设施-接站服务",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-租车",
-          "name": "酒店.酒店设施-租车",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-行李寄存",
-          "name": "酒店.酒店设施-行李寄存",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-24小时热水",
-          "name": "酒店.酒店设施-24小时热水",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-中式餐厅",
-          "name": "酒店.酒店设施-中式餐厅",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-吹风机",
-          "name": "酒店.酒店设施-吹风机",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-温泉",
-          "name": "酒店.酒店设施-温泉",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-看护小孩服务",
-          "name": "酒店.酒店设施-看护小孩服务",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-商务中心",
-          "name": "酒店.酒店设施-商务中心",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-室内游泳池",
-          "name": "酒店.酒店设施-室内游泳池",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-接机服务",
-          "name": "酒店.酒店设施-接机服务",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-会议室",
-          "name": "酒店.酒店设施-会议室",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-公共区域提供wifi",
-          "name": "酒店.酒店设施-公共区域提供wifi",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-叫醒服务",
-          "name": "酒店.酒店设施-叫醒服务",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-接待外宾",
-          "name": "酒店.酒店设施-接待外宾",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-无烟房",
-          "name": "酒店.酒店设施-无烟房",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.名称",
-          "name": "酒店.名称",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.周边景点",
-          "name": "酒店.周边景点",
-          "allow_ask_slot": true,
-          "allow_multi_value": true
-        },
-        {
-          "attribute_id": "酒店.电话",
-          "name": "酒店.电话",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-收费停车位",
-          "name": "酒店.酒店设施-收费停车位",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-部分房间提供wifi",
-          "name": "酒店.酒店设施-部分房间提供wifi",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-酒店各处提供wifi",
-          "name": "酒店.酒店设施-酒店各处提供wifi",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.地址",
-          "name": "酒店.地址",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-免费国内长途电话",
-          "name": "酒店.酒店设施-免费国内长途电话",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-公共区域和部分房间提供wifi",
-          "name": "酒店.酒店设施-公共区域和部分房间提供wifi",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-洗衣服务",
-          "name": "酒店.酒店设施-洗衣服务",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-西式餐厅",
-          "name": "酒店.酒店设施-西式餐厅",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-桑拿",
-          "name": "酒店.酒店设施-桑拿",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.价格",
-          "name": "酒店.价格",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.评分",
-          "name": "酒店.评分",
-          "allow_ask_slot": true
-        },
-        {
-          "attribute_id": "酒店.酒店设施-早餐服务免费",
-          "name": "酒店.酒店设施-早餐服务免费",
+          "attribute_id": "出租.车牌",
+          "name": "出租.车牌",
           "allow_ask_slot": true
         }
       ]
@@ -386,28 +67,351 @@
       ]
     },
     {
-      "meta_id": "CrossWOZ.出租",
-      "name": "出租",
+      "meta_id": "CrossWOZ.景点",
+      "name": "景点",
       "type": "intent",
       "slots": [
         {
-          "attribute_id": "出租.出发地",
-          "name": "出租.出发地",
+          "attribute_id": "景点.名称",
+          "name": "景点.名称",
           "allow_ask_slot": true
         },
         {
-          "attribute_id": "出租.目的地",
-          "name": "出租.目的地",
+          "attribute_id": "景点.周边景点",
+          "name": "景点.周边景点",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "景点.周边酒店",
+          "name": "景点.周边酒店",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "景点.周边餐馆",
+          "name": "景点.周边餐馆",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "景点.地址",
+          "name": "景点.地址",
           "allow_ask_slot": true
         },
         {
-          "attribute_id": "出租.车型",
-          "name": "出租.车型",
+          "attribute_id": "景点.游玩时间",
+          "name": "景点.游玩时间",
           "allow_ask_slot": true
         },
         {
-          "attribute_id": "出租.车牌",
-          "name": "出租.车牌",
+          "attribute_id": "景点.电话",
+          "name": "景点.电话",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "景点.评分",
+          "name": "景点.评分",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "景点.门票",
+          "name": "景点.门票",
+          "allow_ask_slot": true
+        }
+      ]
+    },
+    {
+      "meta_id": "CrossWOZ.酒店",
+      "name": "酒店",
+      "type": "intent",
+      "slots": [
+        {
+          "attribute_id": "酒店.价格",
+          "name": "酒店.价格",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.名称",
+          "name": "酒店.名称",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.周边景点",
+          "name": "酒店.周边景点",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "酒店.周边餐馆",
+          "name": "酒店.周边餐馆",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "酒店.地址",
+          "name": "酒店.地址",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.电话",
+          "name": "酒店.电话",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.评分",
+          "name": "酒店.评分",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店类型",
+          "name": "酒店.酒店类型",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-24小时热水",
+          "name": "酒店.酒店设施-24小时热水",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-SPA",
+          "name": "酒店.酒店设施-SPA",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-中式餐厅",
+          "name": "酒店.酒店设施-中式餐厅",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-会议室",
+          "name": "酒店.酒店设施-会议室",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-健身房",
+          "name": "酒店.酒店设施-健身房",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-免费国内长途电话",
+          "name": "酒店.酒店设施-免费国内长途电话",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-免费市内电话",
+          "name": "酒店.酒店设施-免费市内电话",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-公共区域和部分房间提供wifi",
+          "name": "酒店.酒店设施-公共区域和部分房间提供wifi",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-公共区域提供wifi",
+          "name": "酒店.酒店设施-公共区域提供wifi",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-叫醒服务",
+          "name": "酒店.酒店设施-叫醒服务",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-吹风机",
+          "name": "酒店.酒店设施-吹风机",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-商务中心",
+          "name": "酒店.酒店设施-商务中心",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-国际长途电话",
+          "name": "酒店.酒店设施-国际长途电话",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-室内游泳池",
+          "name": "酒店.酒店设施-室内游泳池",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-室外游泳池",
+          "name": "酒店.酒店设施-室外游泳池",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-宽带上网",
+          "name": "酒店.酒店设施-宽带上网",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-所有房间提供wifi",
+          "name": "酒店.酒店设施-所有房间提供wifi",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-接待外宾",
+          "name": "酒店.酒店设施-接待外宾",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-接机服务",
+          "name": "酒店.酒店设施-接机服务",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-接站服务",
+          "name": "酒店.酒店设施-接站服务",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-收费停车位",
+          "name": "酒店.酒店设施-收费停车位",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-无烟房",
+          "name": "酒店.酒店设施-无烟房",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-早餐服务",
+          "name": "酒店.酒店设施-早餐服务",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-早餐服务免费",
+          "name": "酒店.酒店设施-早餐服务免费",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-暖气",
+          "name": "酒店.酒店设施-暖气",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-桑拿",
+          "name": "酒店.酒店设施-桑拿",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-棋牌室",
+          "name": "酒店.酒店设施-棋牌室",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-残疾人设施",
+          "name": "酒店.酒店设施-残疾人设施",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-洗衣服务",
+          "name": "酒店.酒店设施-洗衣服务",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-温泉",
+          "name": "酒店.酒店设施-温泉",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-看护小孩服务",
+          "name": "酒店.酒店设施-看护小孩服务",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-租车",
+          "name": "酒店.酒店设施-租车",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-行李寄存",
+          "name": "酒店.酒店设施-行李寄存",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-西式餐厅",
+          "name": "酒店.酒店设施-西式餐厅",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-部分房间提供wifi",
+          "name": "酒店.酒店设施-部分房间提供wifi",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-酒吧",
+          "name": "酒店.酒店设施-酒吧",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.酒店设施-酒店各处提供wifi",
+          "name": "酒店.酒店设施-酒店各处提供wifi",
+          "allow_ask_slot": true
+        }
+      ]
+    },
+    {
+      "meta_id": "CrossWOZ.餐馆",
+      "name": "餐馆",
+      "type": "intent",
+      "slots": [
+        {
+          "attribute_id": "餐馆.人均消费",
+          "name": "餐馆.人均消费",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "餐馆.名称",
+          "name": "餐馆.名称",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "餐馆.周边景点",
+          "name": "餐馆.周边景点",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "餐馆.周边酒店",
+          "name": "餐馆.周边酒店",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "餐馆.周边餐馆",
+          "name": "餐馆.周边餐馆",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "餐馆.地址",
+          "name": "餐馆.地址",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "餐馆.推荐菜",
+          "name": "餐馆.推荐菜",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "餐馆.电话",
+          "name": "餐馆.电话",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "餐馆.营业时间",
+          "name": "餐馆.营业时间",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "餐馆.评分",
+          "name": "餐馆.评分",
           "allow_ask_slot": true
         }
       ]
