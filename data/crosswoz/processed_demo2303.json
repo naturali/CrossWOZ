@@ -1,0 +1,365 @@
+[
+  {
+    "UserVirtualID": 96,
+    "SysVirtualID": 97,
+    "Slots": [
+      {
+        "ID": 1,
+        "Group": "餐馆",
+        "Name": "人均消费",
+        "Values": {
+          "single": "50-100元"
+        },
+        "Filled": false
+      },
+      {
+        "ID": 1,
+        "Group": "餐馆",
+        "Name": "推荐菜",
+        "Values": {
+          "multi": [
+            "美食街"
+          ]
+        },
+        "Filled": false
+      },
+      {
+        "ID": 1,
+        "Group": "餐馆",
+        "Name": "名称",
+        "Values": {
+          "single": ""
+        },
+        "Filled": false
+      },
+      {
+        "ID": 1,
+        "Group": "餐馆",
+        "Name": "营业时间",
+        "Values": {
+          "single": ""
+        },
+        "Filled": false
+      },
+      {
+        "ID": 1,
+        "Group": "餐馆",
+        "Name": "周边景点",
+        "Values": {
+          "multi": null
+        },
+        "Filled": false
+      },
+      {
+        "ID": 2,
+        "Group": "景点",
+        "Name": "名称",
+        "Values": {
+          "single": "出现在id=1的周边景点里"
+        },
+        "Filled": false
+      },
+      {
+        "ID": 2,
+        "Group": "景点",
+        "Name": "评分",
+        "Values": {
+          "single": "4.5分以上"
+        },
+        "Filled": false
+      },
+      {
+        "ID": 2,
+        "Group": "景点",
+        "Name": "地址",
+        "Values": {
+          "single": ""
+        },
+        "Filled": false
+      },
+      {
+        "ID": 2,
+        "Group": "景点",
+        "Name": "电话",
+        "Values": {
+          "single": ""
+        },
+        "Filled": false
+      },
+      {
+        "ID": 3,
+        "Group": "酒店",
+        "Name": "名称",
+        "Values": {
+          "single": "桔子水晶酒店(北京安贞店)"
+        },
+        "Filled": false
+      },
+      {
+        "ID": 3,
+        "Group": "酒店",
+        "Name": "电话",
+        "Values": {
+          "single": ""
+        },
+        "Filled": false
+      }
+    ],
+    "FilledSlots": null,
+    "dialogue_id": "2303",
+    "task description": [
+      "你要去一个餐馆(id=1)用餐。你希望餐馆的人均消费是50-100元的。你想吃的菜肴是美食街。你想知道这个餐馆的名称、营业时间、周边景点。",
+      "你要去id=1附近的景点(id=2)游玩。你希望景点的评分是4.5分以上。你想知道这个景点的地址、电话。",
+      "你要去名叫桔子水晶酒店(北京安贞店)的酒店(id=3)住宿。你想知道这个酒店的电话。"
+    ],
+    "type": "不独立多领域",
+    "turns": [
+      {
+        "Utterance": "你好，我想吃美食街，帮我推荐一个人均消费在50-100元的餐馆，谢谢。",
+        "DialogActs": [
+          {
+            "Act": "General",
+            "Intent": "greet",
+            "Slot": "none",
+            "Value": "none"
+          },
+          {
+            "Act": "General",
+            "Intent": "thank",
+            "Slot": "none",
+            "Value": "none"
+          },
+          {
+            "Act": "Inform",
+            "Intent": "餐馆",
+            "Slot": "人均消费",
+            "Value": "50-100元"
+          },
+          {
+            "Act": "Inform",
+            "Intent": "餐馆",
+            "Slot": "推荐菜",
+            "Value": "美食街"
+          },
+          {
+            "Act": "Request",
+            "Intent": "餐馆",
+            "Slot": "名称",
+            "Value": ""
+          }
+        ],
+        "Speaker": "usr"
+      },
+      {
+        "Utterance": "为您推荐鲜鱼口老字号美食街，人均消费75元，有您想吃的美食街哦。",
+        "DialogActs": [
+          {
+            "Act": "Inform",
+            "Intent": "餐馆",
+            "Slot": "人均消费",
+            "Value": "75元"
+          },
+          {
+            "Act": "Inform",
+            "Intent": "餐馆",
+            "Slot": "名称",
+            "Value": "鲜鱼口老字号美食街"
+          }
+        ],
+        "Speaker": "sys"
+      },
+      {
+        "Utterance": "营业时间是什么时间？",
+        "DialogActs": [
+          {
+            "Act": "Request",
+            "Intent": "餐馆",
+            "Slot": "营业时间",
+            "Value": ""
+          }
+        ],
+        "Speaker": "usr"
+      },
+      {
+        "Utterance": "周一至周日 10:00-22:00。",
+        "DialogActs": [
+          {
+            "Act": "Inform",
+            "Intent": "餐馆",
+            "Slot": "营业时间",
+            "Value": "周一至周日 10:00-22:00"
+          }
+        ],
+        "Speaker": "sys"
+      },
+      {
+        "Utterance": "他家周边有什么景点吗？",
+        "DialogActs": [
+          {
+            "Act": "Request",
+            "Intent": "餐馆",
+            "Slot": "周边景点",
+            "Value": ""
+          }
+        ],
+        "Speaker": "usr"
+      },
+      {
+        "Utterance": "有故宫, 前门大街, 恭王府, 天安门广场。",
+        "DialogActs": [
+          {
+            "Act": "Inform",
+            "Intent": "餐馆",
+            "Slot": "周边景点",
+            "Value": "前门大街"
+          },
+          {
+            "Act": "Inform",
+            "Intent": "餐馆",
+            "Slot": "周边景点",
+            "Value": "天安门广场"
+          },
+          {
+            "Act": "Inform",
+            "Intent": "餐馆",
+            "Slot": "周边景点",
+            "Value": "恭王府"
+          },
+          {
+            "Act": "Inform",
+            "Intent": "餐馆",
+            "Slot": "周边景点",
+            "Value": "故宫"
+          }
+        ],
+        "Speaker": "sys"
+      },
+      {
+        "Utterance": "哦，我想在这些附近景点里找一个4.5分以上的，有吗？",
+        "DialogActs": [
+          {
+            "Act": "Inform",
+            "Intent": "景点",
+            "Slot": "评分",
+            "Value": "4.5分以上"
+          },
+          {
+            "Act": "Select",
+            "Intent": "景点",
+            "Slot": "源领域",
+            "Value": "餐馆"
+          }
+        ],
+        "Speaker": "usr"
+      },
+      {
+        "Utterance": "故宫就是哦，4.7分。",
+        "DialogActs": [
+          {
+            "Act": "Inform",
+            "Intent": "景点",
+            "Slot": "名称",
+            "Value": "故宫"
+          },
+          {
+            "Act": "Inform",
+            "Intent": "景点",
+            "Slot": "评分",
+            "Value": "4.7分"
+          }
+        ],
+        "Speaker": "sys"
+      },
+      {
+        "Utterance": "好的，电话和地址告诉我一下。",
+        "DialogActs": [
+          {
+            "Act": "Request",
+            "Intent": "景点",
+            "Slot": "地址",
+            "Value": ""
+          },
+          {
+            "Act": "Request",
+            "Intent": "景点",
+            "Slot": "电话",
+            "Value": ""
+          }
+        ],
+        "Speaker": "usr"
+      },
+      {
+        "Utterance": "010-85007938；北京市东城区景山前街4号。",
+        "DialogActs": [
+          {
+            "Act": "Inform",
+            "Intent": "景点",
+            "Slot": "地址",
+            "Value": "北京市东城区景山前街4号"
+          },
+          {
+            "Act": "Inform",
+            "Intent": "景点",
+            "Slot": "电话",
+            "Value": "010-85007938"
+          }
+        ],
+        "Speaker": "sys"
+      },
+      {
+        "Utterance": "好的，麻烦你帮我查一下桔子水晶酒店(北京安贞店)电话呗。",
+        "DialogActs": [
+          {
+            "Act": "Inform",
+            "Intent": "酒店",
+            "Slot": "名称",
+            "Value": "桔子水晶酒店(北京安贞店)"
+          },
+          {
+            "Act": "Request",
+            "Intent": "酒店",
+            "Slot": "电话",
+            "Value": ""
+          }
+        ],
+        "Speaker": "usr"
+      },
+      {
+        "Utterance": "010-84273030。",
+        "DialogActs": [
+          {
+            "Act": "Inform",
+            "Intent": "酒店",
+            "Slot": "电话",
+            "Value": "010-84273030"
+          }
+        ],
+        "Speaker": "sys"
+      },
+      {
+        "Utterance": "好的，收到，谢谢你！",
+        "DialogActs": [
+          {
+            "Act": "General",
+            "Intent": "thank",
+            "Slot": "none",
+            "Value": "none"
+          }
+        ],
+        "Speaker": "usr"
+      },
+      {
+        "Utterance": "不客气。",
+        "DialogActs": [
+          {
+            "Act": "General",
+            "Intent": "welcome",
+            "Slot": "none",
+            "Value": "none"
+          }
+        ],
+        "Speaker": "sys"
+      }
+    ]
+  }
+]

@@ -1,0 +1,143 @@
+{
+  "agent_id": "demo2303",
+  "expressions": [
+    {
+      "owner_id": "welcome",
+      "expressions": [
+        {
+          "utterance": "不客气。"
+        }
+      ]
+    },
+    {
+      "owner_id": "景点",
+      "expressions": [
+        {
+          "utterance": "哦，我想在这些附近景点里找一个4.5分以上的，有吗？",
+          "annotations": [
+            {
+              "fr": 45,
+              "to": 57,
+              "label": "景点.评分"
+            }
+          ]
+        },
+        {
+          "utterance": "故宫就是哦，4.7分。",
+          "annotations": [
+            {
+              "to": 6,
+              "label": "景点.名称"
+            },
+            {
+              "fr": 18,
+              "to": 24,
+              "label": "景点.评分"
+            }
+          ]
+        },
+        {
+          "utterance": "好的，电话和地址告诉我一下。"
+        },
+        {
+          "utterance": "010-85007938；北京市东城区景山前街4号。",
+          "annotations": [
+            {
+              "to": 12,
+              "label": "景点.电话"
+            },
+            {
+              "fr": 15,
+              "to": 49,
+              "label": "景点.地址"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "owner_id": "酒店",
+      "expressions": [
+        {
+          "utterance": "好的，麻烦你帮我查一下桔子水晶酒店(北京安贞店)电话呗。",
+          "annotations": [
+            {
+              "fr": 33,
+              "to": 68,
+              "label": "酒店.名称"
+            }
+          ]
+        },
+        {
+          "utterance": "010-84273030。",
+          "annotations": [
+            {
+              "to": 12,
+              "label": "酒店.电话"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "owner_id": "餐馆",
+      "expressions": [
+        {
+          "utterance": "你好，我想吃美食街，帮我推荐一个人均消费在50-100元的餐馆，谢谢。",
+          "annotations": [
+            {
+              "fr": 18,
+              "to": 27,
+              "label": "餐馆.推荐菜"
+            },
+            {
+              "fr": 63,
+              "to": 72,
+              "label": "餐馆.人均消费"
+            }
+          ]
+        },
+        {
+          "utterance": "为您推荐鲜鱼口老字号美食街，人均消费75元，有您想吃的美食街哦。",
+          "annotations": [
+            {
+              "fr": 12,
+              "to": 39,
+              "label": "餐馆.名称"
+            },
+            {
+              "fr": 54,
+              "to": 59,
+              "label": "餐馆.人均消费"
+            }
+          ]
+        },
+        {
+          "utterance": "营业时间是什么时间？"
+        },
+        {
+          "utterance": "周一至周日 10:00-22:00。",
+          "annotations": [
+            {
+              "to": 27,
+              "label": "餐馆.营业时间"
+            }
+          ]
+        },
+        {
+          "utterance": "他家周边有什么景点吗？"
+        },
+        {
+          "utterance": "有故宫, 前门大街, 恭王府, 天安门广场。",
+          "annotations": [
+            {
+              "fr": 3,
+              "to": 9,
+              "label": "餐馆.周边景点"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

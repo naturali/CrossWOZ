@@ -1,0 +1,14 @@
+{
+  "景点": {
+    "Turns": 79,
+    "Dialogues": 73
+  },
+  "酒店": {
+    "Turns": 51,
+    "Dialogues": 48
+  },
+  "餐馆": {
+    "Turns": 95,
+    "Dialogues": 79
+  }
+}

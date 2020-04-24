@@ -1,0 +1,22 @@
+{
+  "景点.地址,景点.电话": {
+    "Turns": 1,
+    "Dialogues": 1
+  },
+  "酒店.电话": {
+    "Turns": 1,
+    "Dialogues": 1
+  },
+  "餐馆.名称": {
+    "Turns": 1,
+    "Dialogues": 1
+  },
+  "餐馆.周边景点": {
+    "Turns": 1,
+    "Dialogues": 1
+  },
+  "餐馆.营业时间": {
+    "Turns": 1,
+    "Dialogues": 1
+  }
+}

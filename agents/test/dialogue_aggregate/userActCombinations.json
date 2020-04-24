@@ -1,0 +1,50 @@
+{
+  "": {
+    "Turns": 23,
+    "Dialogues": 22
+  },
+  "General": {
+    "Turns": 493,
+    "Dialogues": 487
+  },
+  "General,Inform": {
+    "Turns": 25,
+    "Dialogues": 20
+  },
+  "General,Inform,Request": {
+    "Turns": 483,
+    "Dialogues": 440
+  },
+  "General,Inform,Select": {
+    "Turns": 8,
+    "Dialogues": 7
+  },
+  "General,Request": {
+    "Turns": 3,
+    "Dialogues": 3
+  },
+  "Inform": {
+    "Turns": 154,
+    "Dialogues": 97
+  },
+  "Inform,Request": {
+    "Turns": 1491,
+    "Dialogues": 469
+  },
+  "Inform,Request,Select": {
+    "Turns": 6,
+    "Dialogues": 6
+  },
+  "Inform,Select": {
+    "Turns": 210,
+    "Dialogues": 164
+  },
+  "Request": {
+    "Turns": 1341,
+    "Dialogues": 407
+  },
+  "Request,Select": {
+    "Turns": 1,
+    "Dialogues": 1
+  }
+}

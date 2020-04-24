@@ -1,0 +1,1024 @@
+{
+  "agent": {
+    "agent_id": "crossWOZ",
+    "name": "crossDomain",
+    "description": "由 CrossWOZ 生成的 agent，涉及如下领域：景点,酒店,地铁,餐馆,出租车"
+  },
+  "entities": [
+    {
+      "type_id": "酒店类型",
+      "type_name": "酒店类型",
+      "is_categorical": true
+    },
+    {
+      "type_id": "地址",
+      "type_name": "地址"
+    },
+    {
+      "type_id": "领域",
+      "type_name": "领域",
+      "is_categorical": true
+    },
+    {
+      "type_id": "人均消费",
+      "type_name": "人均消费"
+    },
+    {
+      "type_id": "游玩时间",
+      "type_name": "游玩时间"
+    },
+    {
+      "type_id": "地铁名称",
+      "type_name": "地铁名称"
+    },
+    {
+      "type_id": "System.Boolean",
+      "type_name": "System.Boolean",
+      "is_categorical": true
+    },
+    {
+      "type_id": "评分",
+      "type_name": "评分",
+      "is_categorical": true
+    },
+    {
+      "type_id": "酒店名称",
+      "type_name": "酒店名称"
+    },
+    {
+      "type_id": "门票",
+      "type_name": "门票"
+    },
+    {
+      "type_id": "地铁",
+      "type_name": "地铁"
+    },
+    {
+      "type_id": "System.地名",
+      "type_name": "System.地名"
+    },
+    {
+      "type_id": "System.String",
+      "type_name": "System.String"
+    },
+    {
+      "type_id": "营业时间",
+      "type_name": "营业时间"
+    },
+    {
+      "type_id": "推荐菜",
+      "type_name": "推荐菜"
+    },
+    {
+      "type_id": "餐馆名称",
+      "type_name": "餐馆名称"
+    },
+    {
+      "type_id": "电话",
+      "type_name": "电话"
+    },
+    {
+      "type_id": "价格",
+      "type_name": "价格"
+    },
+    {
+      "type_id": "景点名称",
+      "type_name": "景点名称"
+    }
+  ],
+  "intents": [
+    {
+      "meta_id": "crossDomain.找景点",
+      "name": "找景点",
+      "slots": [
+        {
+          "attribute_id": "crossDomain.找景点.地址",
+          "name": "地址",
+          "type_id": "地址",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "景点的地址是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么地址"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找景点.地铁",
+          "name": "地铁",
+          "type_id": "地铁",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "景点的地铁是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么地铁"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找景点.电话",
+          "name": "电话",
+          "type_id": "电话",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "景点的电话是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么电话"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找景点.周边酒店",
+          "name": "周边酒店",
+          "type_id": "酒店名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "景点的周边酒店是什么？"
+          ],
+          "allow_multi_value": true,
+          "multi_value_prompts": [
+            "还有什么周边酒店"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找景点.周边餐馆",
+          "name": "周边餐馆",
+          "type_id": "餐馆名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "景点的周边餐馆是什么？"
+          ],
+          "allow_multi_value": true,
+          "multi_value_prompts": [
+            "还有什么周边餐馆"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找景点.评分",
+          "name": "评分",
+          "type_id": "评分",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "景点的评分是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么评分"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找景点.周边景点",
+          "name": "周边景点",
+          "type_id": "景点名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "景点的周边景点是什么？"
+          ],
+          "allow_multi_value": true,
+          "multi_value_prompts": [
+            "还有什么周边景点"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找景点.名称",
+          "name": "名称",
+          "type_id": "景点.名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "景点的名称是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么名称"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找景点.门票",
+          "name": "门票",
+          "type_id": "门票",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "景点的门票是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么门票"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找景点.游玩时间",
+          "name": "游玩时间",
+          "type_id": "游玩时间",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "景点的游玩时间是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么游玩时间"
+          ]
+        }
+      ],
+      "type": "intent"
+    },
+    {
+      "meta_id": "crossDomain.找酒店",
+      "name": "找酒店",
+      "slots": [
+        {
+          "attribute_id": "crossDomain.找酒店.地址",
+          "name": "地址",
+          "type_id": "地址",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的地址是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么地址"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.地铁",
+          "name": "地铁",
+          "type_id": "地铁",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的地铁是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么地铁"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-吹风机",
+          "name": "酒店设施-吹风机",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-吹风机是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-吹风机"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-中式餐厅",
+          "name": "酒店设施-中式餐厅",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-中式餐厅是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-中式餐厅"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-无烟房",
+          "name": "酒店设施-无烟房",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-无烟房是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-无烟房"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-商务中心",
+          "name": "酒店设施-商务中心",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-商务中心是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-商务中心"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-行李寄存",
+          "name": "酒店设施-行李寄存",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-行李寄存是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-行李寄存"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.周边餐馆",
+          "name": "周边餐馆",
+          "type_id": "餐馆名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的周边餐馆是什么？"
+          ],
+          "allow_multi_value": true,
+          "multi_value_prompts": [
+            "还有什么周边餐馆"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-室内游泳池",
+          "name": "酒店设施-室内游泳池",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-室内游泳池是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-室内游泳池"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-看护小孩服务",
+          "name": "酒店设施-看护小孩服务",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-看护小孩服务是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-看护小孩服务"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-所有房间提供wifi",
+          "name": "酒店设施-所有房间提供wifi",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-所有房间提供wifi是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-所有房间提供wifi"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-\n                                ",
+          "name": "酒店设施-\n                                ",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-\n                                是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-\n                                "
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-残疾人设施",
+          "name": "酒店设施-残疾人设施",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-残疾人设施是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-残疾人设施"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.周边景点",
+          "name": "周边景点",
+          "type_id": "景点名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的周边景点是什么？"
+          ],
+          "allow_multi_value": true,
+          "multi_value_prompts": [
+            "还有什么周边景点"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店类型",
+          "name": "酒店类型",
+          "type_id": "酒店类型",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店类型是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店类型"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-国际长途电话",
+          "name": "酒店设施-国际长途电话",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-国际长途电话是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-国际长途电话"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-免费国内长途电话",
+          "name": "酒店设施-免费国内长途电话",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-免费国内长途电话是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-免费国内长途电话"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.名称",
+          "name": "名称",
+          "type_id": "酒店.名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的名称是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么名称"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-24小时热水",
+          "name": "酒店设施-24小时热水",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-24小时热水是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-24小时热水"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-健身房",
+          "name": "酒店设施-健身房",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-健身房是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-健身房"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-接站服务",
+          "name": "酒店设施-接站服务",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-接站服务是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-接站服务"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-室外游泳池",
+          "name": "酒店设施-室外游泳池",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-室外游泳池是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-室外游泳池"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-公共区域和部分房间提供wifi",
+          "name": "酒店设施-公共区域和部分房间提供wifi",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-公共区域和部分房间提供wifi是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-公共区域和部分房间提供wifi"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.评分",
+          "name": "评分",
+          "type_id": "评分",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的评分是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么评分"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-宽带上网",
+          "name": "酒店设施-宽带上网",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-宽带上网是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-宽带上网"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-会议室",
+          "name": "酒店设施-会议室",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-会议室是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-会议室"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-洗衣服务",
+          "name": "酒店设施-洗衣服务",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-洗衣服务是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-洗衣服务"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-收费停车位",
+          "name": "酒店设施-收费停车位",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-收费停车位是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-收费停车位"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.价格",
+          "name": "价格",
+          "type_id": "价格",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的价格是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么价格"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-接机服务",
+          "name": "酒店设施-接机服务",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-接机服务是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-接机服务"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-SPA",
+          "name": "酒店设施-SPA",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-SPA是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-SPA"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-酒吧",
+          "name": "酒店设施-酒吧",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-酒吧是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-酒吧"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-早餐服务免费",
+          "name": "酒店设施-早餐服务免费",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-早餐服务免费是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-早餐服务免费"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.周边酒店",
+          "name": "周边酒店",
+          "type_id": "酒店名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的周边酒店是什么？"
+          ],
+          "allow_multi_value": true,
+          "multi_value_prompts": [
+            "还有什么周边酒店"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-接待外宾",
+          "name": "酒店设施-接待外宾",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-接待外宾是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-接待外宾"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-桑拿",
+          "name": "酒店设施-桑拿",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-桑拿是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-桑拿"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-租车",
+          "name": "酒店设施-租车",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-租车是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-租车"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-部分房间提供wifi",
+          "name": "酒店设施-部分房间提供wifi",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-部分房间提供wifi是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-部分房间提供wifi"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-公共区域提供wifi",
+          "name": "酒店设施-公共区域提供wifi",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-公共区域提供wifi是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-公共区域提供wifi"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.电话",
+          "name": "电话",
+          "type_id": "电话",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的电话是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么电话"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-早餐服务",
+          "name": "酒店设施-早餐服务",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-早餐服务是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-早餐服务"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-棋牌室",
+          "name": "酒店设施-棋牌室",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-棋牌室是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-棋牌室"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-暖气",
+          "name": "酒店设施-暖气",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-暖气是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-暖气"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-叫醒服务",
+          "name": "酒店设施-叫醒服务",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-叫醒服务是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-叫醒服务"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-酒店各处提供wifi",
+          "name": "酒店设施-酒店各处提供wifi",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-酒店各处提供wifi是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-酒店各处提供wifi"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-免费市内电话",
+          "name": "酒店设施-免费市内电话",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-免费市内电话是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-免费市内电话"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-温泉",
+          "name": "酒店设施-温泉",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-温泉是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-温泉"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-\n                            ",
+          "name": "酒店设施-\n                            ",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-\n                            是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-\n                            "
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找酒店.酒店设施-西式餐厅",
+          "name": "酒店设施-西式餐厅",
+          "type_id": "System.Boolean",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "酒店的酒店设施-西式餐厅是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么酒店设施-西式餐厅"
+          ]
+        }
+      ],
+      "type": "intent"
+    },
+    {
+      "meta_id": "crossDomain.找地铁",
+      "name": "找地铁",
+      "slots": [
+        {
+          "attribute_id": "crossDomain.找地铁.地铁",
+          "name": "地铁",
+          "type_id": "地铁",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "地铁的地铁是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么地铁"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找地铁.名称",
+          "name": "名称",
+          "type_id": "地铁.名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "地铁的名称是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么名称"
+          ]
+        }
+      ],
+      "type": "intent"
+    },
+    {
+      "meta_id": "crossDomain.找餐馆",
+      "name": "找餐馆",
+      "slots": [
+        {
+          "attribute_id": "crossDomain.找餐馆.周边酒店",
+          "name": "周边酒店",
+          "type_id": "酒店名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "餐馆的周边酒店是什么？"
+          ],
+          "allow_multi_value": true,
+          "multi_value_prompts": [
+            "还有什么周边酒店"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找餐馆.名称",
+          "name": "名称",
+          "type_id": "餐馆.名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "餐馆的名称是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么名称"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找餐馆.地铁",
+          "name": "地铁",
+          "type_id": "地铁",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "餐馆的地铁是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么地铁"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找餐馆.评分",
+          "name": "评分",
+          "type_id": "评分",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "餐馆的评分是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么评分"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找餐馆.周边景点",
+          "name": "周边景点",
+          "type_id": "景点名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "餐馆的周边景点是什么？"
+          ],
+          "allow_multi_value": true,
+          "multi_value_prompts": [
+            "还有什么周边景点"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找餐馆.周边餐馆",
+          "name": "周边餐馆",
+          "type_id": "餐馆名称",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "餐馆的周边餐馆是什么？"
+          ],
+          "allow_multi_value": true,
+          "multi_value_prompts": [
+            "还有什么周边餐馆"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找餐馆.推荐菜",
+          "name": "推荐菜",
+          "type_id": "推荐菜",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "餐馆的推荐菜是什么？"
+          ],
+          "allow_multi_value": true,
+          "multi_value_prompts": [
+            "还有什么推荐菜"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找餐馆.电话",
+          "name": "电话",
+          "type_id": "电话",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "餐馆的电话是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么电话"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找餐馆.地址",
+          "name": "地址",
+          "type_id": "地址",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "餐馆的地址是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么地址"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找餐馆.营业时间",
+          "name": "营业时间",
+          "type_id": "营业时间",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "餐馆的营业时间是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么营业时间"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找餐馆.人均消费",
+          "name": "人均消费",
+          "type_id": "人均消费",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "餐馆的人均消费是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么人均消费"
+          ]
+        }
+      ],
+      "type": "intent"
+    },
+    {
+      "meta_id": "crossDomain.找出租车",
+      "name": "找出租车",
+      "slots": [
+        {
+          "attribute_id": "crossDomain.找出租车.System.地名",
+          "name": "System.地名",
+          "type_id": "System.地名",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "出租车的System.地名是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么System.地名"
+          ]
+        },
+        {
+          "attribute_id": "crossDomain.找出租车.System.String",
+          "name": "System.String",
+          "type_id": "System.String",
+          "allow_ask_slot": true,
+          "ask_slot_prompt": [
+            "出租车的System.String是什么？"
+          ],
+          "multi_value_prompts": [
+            "还有什么System.String"
+          ]
+        }
+      ],
+      "type": "intent"
+    }
+  ]
+}

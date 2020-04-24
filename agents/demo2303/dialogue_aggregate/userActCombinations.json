@@ -1,0 +1,22 @@
+{
+  "General": {
+    "Turns": 1,
+    "Dialogues": 1
+  },
+  "General,Inform,Request": {
+    "Turns": 1,
+    "Dialogues": 1
+  },
+  "Inform,Request": {
+    "Turns": 1,
+    "Dialogues": 1
+  },
+  "Inform,Select": {
+    "Turns": 1,
+    "Dialogues": 1
+  },
+  "Request": {
+    "Turns": 3,
+    "Dialogues": 1
+  }
+}

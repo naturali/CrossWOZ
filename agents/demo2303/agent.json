@@ -1,0 +1,94 @@
+{
+  "agent": {
+    "agent_id": "CrossWOZ",
+    "name": "CrossWOZ",
+    "agent_org": "CrossWOZ",
+    "description": "generated from CrossWOZ data set"
+  },
+  "entities": [
+    {}
+  ],
+  "composites": [
+    {}
+  ],
+  "intents": [
+    {
+      "meta_id": "CrossWOZ.景点",
+      "name": "景点",
+      "slots": [
+        {
+          "attribute_id": "景点.名称",
+          "name": "景点.名称",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "景点.地址",
+          "name": "景点.地址",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "景点.电话",
+          "name": "景点.电话",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "景点.评分",
+          "name": "景点.评分",
+          "allow_ask_slot": true
+        }
+      ],
+      "type": "intent"
+    },
+    {
+      "meta_id": "CrossWOZ.酒店",
+      "name": "酒店",
+      "slots": [
+        {
+          "attribute_id": "酒店.名称",
+          "name": "酒店.名称",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "酒店.电话",
+          "name": "酒店.电话",
+          "allow_ask_slot": true
+        }
+      ],
+      "type": "intent"
+    },
+    {
+      "meta_id": "CrossWOZ.餐馆",
+      "name": "餐馆",
+      "slots": [
+        {
+          "attribute_id": "餐馆.人均消费",
+          "name": "餐馆.人均消费",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "餐馆.名称",
+          "name": "餐馆.名称",
+          "allow_ask_slot": true
+        },
+        {
+          "attribute_id": "餐馆.周边景点",
+          "name": "餐馆.周边景点",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "餐馆.推荐菜",
+          "name": "餐馆.推荐菜",
+          "allow_ask_slot": true,
+          "allow_multi_value": true
+        },
+        {
+          "attribute_id": "餐馆.营业时间",
+          "name": "餐馆.营业时间",
+          "allow_ask_slot": true
+        }
+      ],
+      "type": "intent"
+    }
+  ]
+}
