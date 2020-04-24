@@ -1,0 +1,34 @@
+{
+  "出租": {
+    "Turns": 76,
+    "Dialogues": 73
+  },
+  "地铁": {
+    "Turns": 84,
+    "Dialogues": 82
+  },
+  "景点": {
+    "Turns": 745,
+    "Dialogues": 409
+  },
+  "景点,酒店": {
+    "Turns": 22,
+    "Dialogues": 22
+  },
+  "景点,餐馆": {
+    "Turns": 29,
+    "Dialogues": 27
+  },
+  "酒店": {
+    "Turns": 654,
+    "Dialogues": 407
+  },
+  "酒店,餐馆": {
+    "Turns": 26,
+    "Dialogues": 26
+  },
+  "餐馆": {
+    "Turns": 741,
+    "Dialogues": 425
+  }
+}

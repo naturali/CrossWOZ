@@ -424,6 +424,5 @@ func main() {
 
 	//ExtractExpressions(dialogues, outputDir, inputFileName)
 
-	dialog.AnalyseUserTurnActCombinations(dialogues, inputFileName, outputDir)
-	dialog.AnalyseUserTurnsREQUEST(dialogues, inputFileName, outputDir)
+	dialog.AnalyseUserTurns(dialogues, inputFileName, outputDir)
 }
