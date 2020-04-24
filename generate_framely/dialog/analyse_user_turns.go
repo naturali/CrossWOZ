@@ -13,8 +13,9 @@ import (
 )
 
 type Cnt struct {
-	Turns     int
-	Dialogues int
+	Turns      int
+	Dialogues  int
+	Utterances []string `json:"-"`
 }
 
 func AnalyseUserTurnActCombinations(dialogues []*crosswoz.Dialogue, inputFile string, outputDir string) {
@@ -95,6 +96,7 @@ func AggregateUserTurns(dialogues []*crosswoz.Dialogue, inputFile string, output
 				aggregationForAllDialogues[subjectValue] = &Cnt{Turns: 1, Dialogues: 1}
 			} else {
 				aggregationForAllDialogues[subjectValue].Turns++
+				aggregationForAllDialogues[subjectValue].Utterances = sgd.AppendIfNotExists(aggregationForAllDialogues[subjectValue].Utterances, turn.Utterance)
 				if _, ok := seen[subjectValue]; !ok {
 					log.Println("new seen subject:", subjectValue)
 					aggregationForAllDialogues[subjectValue].Dialogues++

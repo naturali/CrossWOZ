@@ -385,8 +385,8 @@ func AnalyseGoals(dialogs []*crosswoz.Dialogue, inputDir string, inputFile strin
 
 func main() {
 	inputDir := "data/crosswoz/"
-	inputFileName := "demo2303"
-	//inputFileName := "test"
+	//inputFileName := "demo2303"
+	inputFileName := "test"
 	//inputFileName := "train"
 
 	outputDir := "agents"
