@@ -15,7 +15,6 @@
     {
       "meta_id": "CrossWOZ.景点",
       "name": "景点",
-      "type": "intent",
       "slots": [
         {
           "attribute_id": "景点.名称",
@@ -37,12 +36,12 @@
           "name": "景点.评分",
           "allow_ask_slot": true
         }
-      ]
+      ],
+      "type": "intent"
     },
     {
       "meta_id": "CrossWOZ.酒店",
       "name": "酒店",
-      "type": "intent",
       "slots": [
         {
           "attribute_id": "酒店.名称",
@@ -54,12 +53,12 @@
           "name": "酒店.电话",
           "allow_ask_slot": true
         }
-      ]
+      ],
+      "type": "intent"
     },
     {
       "meta_id": "CrossWOZ.餐馆",
       "name": "餐馆",
-      "type": "intent",
       "slots": [
         {
           "attribute_id": "餐馆.人均消费",
@@ -88,7 +87,8 @@
           "name": "餐馆.营业时间",
           "allow_ask_slot": true
         }
-      ]
+      ],
+      "type": "intent"
     }
   ]
 }

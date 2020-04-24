@@ -15,7 +15,6 @@
     {
       "meta_id": "CrossWOZ.出租",
       "name": "出租",
-      "type": "intent",
       "slots": [
         {
           "attribute_id": "出租.出发地",
@@ -37,12 +36,12 @@
           "name": "出租.车牌",
           "allow_ask_slot": true
         }
-      ]
+      ],
+      "type": "intent"
     },
     {
       "meta_id": "CrossWOZ.地铁",
       "name": "地铁",
-      "type": "intent",
       "slots": [
         {
           "attribute_id": "地铁.出发地",
@@ -64,12 +63,12 @@
           "name": "地铁.目的地附近地铁站",
           "allow_ask_slot": true
         }
-      ]
+      ],
+      "type": "intent"
     },
     {
       "meta_id": "CrossWOZ.景点",
       "name": "景点",
-      "type": "intent",
       "slots": [
         {
           "attribute_id": "景点.名称",
@@ -119,12 +118,12 @@
           "name": "景点.门票",
           "allow_ask_slot": true
         }
-      ]
+      ],
+      "type": "intent"
     },
     {
       "meta_id": "CrossWOZ.酒店",
       "name": "酒店",
-      "type": "intent",
       "slots": [
         {
           "attribute_id": "酒店.价格",
@@ -353,12 +352,12 @@
           "name": "酒店.酒店设施-酒店各处提供wifi",
           "allow_ask_slot": true
         }
-      ]
+      ],
+      "type": "intent"
     },
     {
       "meta_id": "CrossWOZ.餐馆",
       "name": "餐馆",
-      "type": "intent",
       "slots": [
         {
           "attribute_id": "餐馆.人均消费",
@@ -414,7 +413,8 @@
           "name": "餐馆.评分",
           "allow_ask_slot": true
         }
-      ]
+      ],
+      "type": "intent"
     }
   ]
 }

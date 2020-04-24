@@ -1,0 +1,62 @@
+{
+  "": {
+    "Turns": 169,
+    "Dialogues": 164
+  },
+  "General": {
+    "Turns": 4952,
+    "Dialogues": 4923
+  },
+  "General,Inform": {
+    "Turns": 207,
+    "Dialogues": 184
+  },
+  "General,Inform,Request": {
+    "Turns": 4880,
+    "Dialogues": 4438
+  },
+  "General,Inform,Request,Select": {
+    "Turns": 2,
+    "Dialogues": 2
+  },
+  "General,Inform,Select": {
+    "Turns": 86,
+    "Dialogues": 83
+  },
+  "General,Request": {
+    "Turns": 119,
+    "Dialogues": 109
+  },
+  "General,Request,Select": {
+    "Turns": 1,
+    "Dialogues": 1
+  },
+  "Inform": {
+    "Turns": 1548,
+    "Dialogues": 1063
+  },
+  "Inform,Request": {
+    "Turns": 14993,
+    "Dialogues": 4715
+  },
+  "Inform,Request,Select": {
+    "Turns": 82,
+    "Dialogues": 77
+  },
+  "Inform,Select": {
+    "Turns": 2117,
+    "Dialogues": 1725
+  },
+  "Request": {
+    "Turns": 13187,
+    "Dialogues": 4043
+  },
+  "Request,Select": {
+    "Turns": 1,
+    "Dialogues": 1
+  },
+  "Select": {
+    "Turns": 2,
+    "Dialogues": 2
+  }
+}

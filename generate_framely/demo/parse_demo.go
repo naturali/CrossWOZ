@@ -5,6 +5,8 @@ import (
 	"github.com/framely/sgdnlu/generate_framely/framely"
 	"github.com/framely/sgdnlu/generate_framely/framely/p"
 	"github.com/framely/sgdnlu/generate_framely/sgd"
+	"github.com/krystollia/CrossWOZ/generate_framely/crosswoz"
+	"github.com/krystollia/CrossWOZ/generate_framely/dialog"
 	"io/ioutil"
 	"log"
 	"os"
@@ -13,119 +15,6 @@ import (
 	"strconv"
 	"strings"
 )
-
-type SelectedResult []interface{}
-type DialogAct struct {
-	Act    string
-	Intent string
-	Slot   string
-	Value  string
-}
-
-type Message struct {
-	Utterance  string
-	DialogActs []*DialogAct
-	UserState  []*Slot `json:"-"`
-	Speaker    string  // usr or sys
-}
-
-type RawMessage struct {
-	Content      string          `json:"content"`
-	RawDialogAct [][]string      `json:"dialog_act"`
-	Role         string          `json:"role"`
-	UserState    [][]interface{} `json:"user_state"`
-	SysState     map[string]interface{}
-	SysStateInit map[string]interface{}
-}
-
-type RawDialogue struct {
-	SysUsr          []int64         `json:"sys-usr"`
-	Goal            [][]interface{} `json:"goal"`
-	Messages        []*RawMessage
-	FinalGoal       [][]interface{} `json:"final_goal"`
-	TaskDescription []string        `json:"task description"`
-	Type            string          `json:"type"`
-}
-
-type SlotValues struct {
-	Single *string   `json:"single,omitempty"`
-	Multi  *[]string `json:"multi,omitempty"`
-}
-
-func (sv *SlotValues) ParseSlotValues(v interface{}) bool {
-	if s, ok := v.(string); ok {
-		sv.Single = &s
-		return true
-	}
-	if a, ok := v.([]interface{}); ok {
-		var values []string
-		for _, value := range a {
-			if s, ok := value.(string); ok {
-				values = append(values, s)
-			} else {
-				log.Println("value not good: ", value)
-				return false
-			}
-		}
-		sv.Multi = &values
-		return true
-	}
-	return false
-}
-
-type Slot struct {
-	ID     int // TODO
-	Group  string
-	Name   string
-	Values *SlotValues
-	Filled bool // TODO what's this?
-}
-
-func (slot *Slot) IsMulti(dialogID string, i int) bool {
-	if slot.Values.Multi != nil {
-		return true
-	} else if slot.Values.Single != nil {
-		return false
-	} else {
-		log.Fatalf("both single and multi are nil, dialog: %s %d 'th slot, name: %s.%s", dialogID, i, slot.Group, slot.Name)
-		return false
-	}
-}
-func ParseSlot(rawSlot []interface{}, dialogID string, idx int) *Slot {
-	slot := &Slot{
-		Values: new(SlotValues),
-	}
-	// id
-	if v, ok := rawSlot[0].(float64); !ok {
-		log.Fatalf("parse id failed, dialog: %s, %d 'th slot: %v", dialogID, idx, rawSlot[0])
-	} else {
-		slot.ID = int(v)
-	}
-	// group
-	if v, ok := rawSlot[1].(string); !ok {
-		log.Fatalf("parse group failed, dialog: %s, %d 'th slot", dialogID, idx)
-	} else {
-		slot.Group = v
-	}
-	// name
-	if v, ok := rawSlot[2].(string); !ok {
-		log.Fatalf("parse name failed, dialog: %s, %d 'th slot", dialogID, idx)
-	} else {
-		slot.Name = v
-	}
-	// value
-	if !slot.Values.ParseSlotValues(rawSlot[3]) {
-		log.Fatalf("parse slot values failed, dialog: %s, %d 'th slot", dialogID, idx)
-	}
-
-	// filled
-	if v, ok := rawSlot[4].(bool); !ok {
-		log.Fatalf("parse filled failed, dialog: %s, %d 'th slot", dialogID, idx)
-	} else {
-		slot.Filled = v
-	}
-	return slot
-}
 
 type SlotIdentifier struct {
 	FullName string
@@ -137,20 +26,6 @@ type SlotGroup struct {
 	GroupName    string
 	SlotNames    map[string]*SlotIdentifier
 	SrcDialogues map[string]bool
-}
-
-type Dialogue struct {
-	UserVirtualID int     // TODO check
-	SysVirtualID  int     // TODO check
-	Slots         []*Slot // slots to fill? TODO check
-	FilledSlots   []*Slot // filled slots after dialogues? TODO check
-	DialogueID    string  `json:"dialogue_id"`
-	// TODO 一个description相当于一个intent？
-	TaskDescription []string        `json:"task description"`
-	Type            string          `json:"type"`
-	Goal            [][]interface{} `json:"-"`
-	Turns           []*Message      `json:"turns"`
-	FinalGoal       [][]interface{} `json:"-"`
 }
 
 // if slot names are the same, merge different slot groups by group name
@@ -346,7 +221,7 @@ func GenerateIntents(groups map[string][]*MergedSlotGroup, inputFileName string,
 	}
 }
 
-func listDomainCombinations(rawDialogues map[string]*RawDialogue, inputFile string) {
+func listDomainCombinations(rawDialogues map[string]*crosswoz.RawDialogue, inputFile string) {
 	type SlotInfo struct {
 		Domain   string
 		SlotName string
@@ -362,7 +237,7 @@ func listDomainCombinations(rawDialogues map[string]*RawDialogue, inputFile stri
 	for dialogID, rawDialogue := range rawDialogues {
 		var requiredSlots []*SlotInfo
 		for i, rawSlot := range rawDialogue.Goal {
-			slot := ParseSlot(rawSlot, dialogID, i)
+			slot := crosswoz.ParseSlot(rawSlot, dialogID, i)
 			requiredSlots = append(requiredSlots, &SlotInfo{
 				Domain:   slot.Group,
 				SlotName: slot.Name,
@@ -424,48 +299,7 @@ func listDomainCombinations(rawDialogues map[string]*RawDialogue, inputFile stri
 	ioutil.WriteFile("generate_framely/demo/domain_combinations_"+inputFile+".json", b, 0666)
 }
 
-func (turn *Message) RelatedIntents() []string {
-	var intents []string
-	var intentMap = make(map[string]bool)
-	for _, act := range turn.DialogActs {
-		if act.Intent == "greet" ||
-			act.Intent == "thank" {
-			continue
-		}
-		intentMap[act.Intent] = true
-	}
-	for k := range intentMap {
-		intents = append(intents, k)
-	}
-	sort.Strings(intents)
-	return intents
-}
-
-type RelatedSlots struct {
-	InformedSlots  map[string]string
-	RequestedSlots []string
-}
-
-func (turn *Message) RelatedSlots() *RelatedSlots {
-	var relatedSlots = &RelatedSlots{
-		InformedSlots: make(map[string]string),
-	}
-	for _, act := range turn.DialogActs {
-		if act.Intent == "greet" ||
-			act.Intent == "thank" {
-			continue
-		}
-		slotName := act.Intent + "." + act.Slot
-		if act.Act == "Inform" {
-			relatedSlots.InformedSlots[slotName] = act.Value
-		} else if act.Act == "Request" {
-			relatedSlots.RequestedSlots = append(relatedSlots.RequestedSlots, slotName)
-		}
-	}
-	return relatedSlots
-}
-
-func ExtractExpressions(dialogues []*Dialogue, outputDir string, inputFile string) {
+func ExtractExpressions(dialogues []*crosswoz.Dialogue, outputDir string, inputFile string) {
 	var expressions []*p.FramelyExpression
 	for _, dialog := range dialogues {
 		for _, msg := range dialog.Turns {
@@ -496,58 +330,13 @@ func ExtractExpressions(dialogues []*Dialogue, outputDir string, inputFile strin
 
 }
 
-func TransformDialogue(dialogID string, rawDialogue *RawDialogue) *Dialogue {
-	dialogue := &Dialogue{
-		UserVirtualID:   int(rawDialogue.SysUsr[0]),
-		SysVirtualID:    int(rawDialogue.SysUsr[1]),
-		DialogueID:      dialogID,
-		TaskDescription: rawDialogue.TaskDescription,
-		Type:            rawDialogue.Type,
-		Goal:            rawDialogue.Goal,
-		FinalGoal:       rawDialogue.FinalGoal,
-		Turns:           make([]*Message, len(rawDialogue.Messages)),
-	}
-	for i, rawSlot := range rawDialogue.Goal {
-		slot := ParseSlot(rawSlot, dialogID, i)
-		if slot.Filled {
-			log.Printf("!slot in goal should not be filled, dialog: %s, %d 'th slot", dialogID, i)
-		}
-		dialogue.Slots = append(dialogue.Slots, slot)
-	}
-	// Turns
-	for msgIdx, msg := range rawDialogue.Messages {
-		turn := &Message{
-			Speaker:   msg.Role,
-			Utterance: msg.Content,
-		}
-		dialogue.Turns[msgIdx] = turn
-		// user state
-		for slotIdx, rawSlot := range msg.UserState {
-			slot := ParseSlot(rawSlot, dialogID+".Messages."+strconv.Itoa(msgIdx), slotIdx)
-			turn.UserState = append(turn.UserState, slot)
-		}
-		// dialog act
-		for _, act := range msg.RawDialogAct {
-			dialogAct := &DialogAct{
-				Act:    act[0],
-				Intent: act[1],
-				Slot:   act[2],
-				Value:  act[3],
-			}
-			turn.DialogActs = append(turn.DialogActs, dialogAct)
-		}
-
-	}
-	return dialogue
-}
-
-func AnalyseGoals(dialogs []*Dialogue, inputDir string, inputFile string) map[string][]*MergedSlotGroup {
+func AnalyseGoals(dialogs []*crosswoz.Dialogue, inputDir string, inputFile string) map[string][]*MergedSlotGroup {
 	slotGroups := make(map[string]*SlotGroup)
 	for _, rawDialogue := range dialogs {
 		dialogID := rawDialogue.DialogueID
 		slotsGoal := make(map[string]bool)
 		for i, rawSlot := range rawDialogue.Goal {
-			slot := ParseSlot(rawSlot, dialogID, i)
+			slot := crosswoz.ParseSlot(rawSlot, dialogID, i)
 			if slot.Filled {
 				log.Printf("!slot in goal should not be filled, dialog: %s, %d 'th slot", dialogID, i)
 			}
@@ -580,7 +369,7 @@ func AnalyseGoals(dialogs []*Dialogue, inputDir string, inputFile string) map[st
 		}
 		slotsFinalGoal := make(map[string]bool)
 		for i, rawSlot := range rawDialogue.FinalGoal {
-			slot := ParseSlot(rawSlot, dialogID, i)
+			slot := crosswoz.ParseSlot(rawSlot, dialogID, i)
 			if !slot.Filled {
 				log.Printf("!slot in final goal should be filled, dialog: %s, %d 'th slot, slot: %s.%s", dialogID, i, slot.Group, slot.Name)
 			}
@@ -596,21 +385,23 @@ func AnalyseGoals(dialogs []*Dialogue, inputDir string, inputFile string) map[st
 
 func main() {
 	inputDir := "data/crosswoz/"
-	//inputFileName := "demo2303"
-	inputFileName := "test"
+	inputFileName := "demo2303"
+	//inputFileName := "test"
+	//inputFileName := "train"
+
 	outputDir := "agents"
 	b, err := ioutil.ReadFile(path.Join(inputDir, inputFileName+".json"))
 	if err != nil {
 		log.Fatal("Failed to read file, err:", err)
 	}
-	var rawDialogues map[string]*RawDialogue
+	var rawDialogues map[string]*crosswoz.RawDialogue
 	if err := json.Unmarshal(b, &rawDialogues); err != nil {
 		log.Fatal("Failed to unmarshal rawDialogues, err:", err)
 	}
 	listDomainCombinations(rawDialogues, inputFileName)
-	var dialogues []*Dialogue
+	var dialogues []*crosswoz.Dialogue
 	for dialogID, rawDialogue := range rawDialogues {
-		dialogue := TransformDialogue(dialogID, rawDialogue)
+		dialogue := crosswoz.TransformDialogue(dialogID, rawDialogue)
 		dialogues = append(dialogues, dialogue)
 	}
 	sort.Slice(dialogues, func(i, j int) bool {
@@ -631,5 +422,8 @@ func main() {
 		log.Println("wrote dialogues to file:", fileName)
 	}
 
-	ExtractExpressions(dialogues, outputDir, inputFileName)
+	//ExtractExpressions(dialogues, outputDir, inputFileName)
+
+	dialog.AnalyseUserTurns(dialogues, inputFileName, outputDir)
+	dialog.AnalyseUserTurnsREQUEST(dialogues, inputFileName, outputDir)
 }

@@ -1,0 +1,22 @@
+{
+  "出租": {
+    "Turns": 75,
+    "Dialogues": 73
+  },
+  "地铁": {
+    "Turns": 82,
+    "Dialogues": 80
+  },
+  "景点": {
+    "Turns": 1060,
+    "Dialogues": 412
+  },
+  "酒店": {
+    "Turns": 990,
+    "Dialogues": 409
+  },
+  "餐馆": {
+    "Turns": 1118,
+    "Dialogues": 426
+  }
+}
