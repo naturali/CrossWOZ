@@ -18,117 +18,83 @@ type Cnt struct {
 }
 
 func AnalyseUserTurnsREQUEST(dialogues []*crosswoz.Dialogue, inputFile string, outputDir string) {
-	var userTurnRequestSlots = make(map[string]*Cnt)
-	var userTurnRequestIntents = make(map[string]*Cnt)
-	for _, dialog := range dialogues {
-		slotsMap := make(map[string]bool)
-		intentsMap := make(map[string]bool)
-		log.Println("analyse request ~~~", dialog.DialogueID)
-		for _, turn := range dialog.Turns {
-			if turn.Speaker != "usr" {
-				continue
-			}
-			var requestSlots []string
-			var requestIntents []string
-			for _, act := range turn.DialogActs {
-				if act.Act == "Request" {
-					slotName := act.Intent + "." + act.Slot
-					if act.Value != "" {
-						log.Println("!!!!!!!!!!!!!!!", act, turn.Utterance)
-						slotName = slotName + "." + act.Value
-					}
-					requestSlots = sgd.AppendIfNotExists(requestSlots, slotName)
-					requestIntents = sgd.AppendIfNotExists(requestIntents, act.Intent)
+	requestSlotsExtractor := func(turn *crosswoz.Message) string {
+		var requestSlots []string
+		for _, act := range turn.DialogActs {
+			if act.Act == "Request" {
+				slotName := act.Intent + "." + act.Slot
+				if act.Value != "" {
+					log.Println("request with a value???????? ", act, turn.Utterance)
+					slotName = slotName + "." + act.Value
 				}
+				requestSlots = sgd.AppendIfNotExists(requestSlots, slotName)
 			}
-			if len(requestSlots) == 0 {
-				continue
-			}
-			// check requested slots combinations
-			sort.Strings(requestSlots)
-			slotsKey := strings.Join(requestSlots, ",")
-			if _, ok := userTurnRequestSlots[slotsKey]; !ok {
-				userTurnRequestSlots[slotsKey] = &Cnt{
-					Turns:     1,
-					Dialogues: 1,
-				}
-			} else {
-				userTurnRequestSlots[slotsKey].Turns++
-				if _, ok := slotsMap[slotsKey]; !ok {
-					userTurnRequestSlots[slotsKey].Dialogues++
-				}
-			}
-			slotsMap[slotsKey] = true
-			// check requested intent combinations
-			sort.Strings(requestIntents)
-			intentsKey := strings.Join(requestIntents, ",")
-			if _, ok := userTurnRequestIntents[intentsKey]; !ok {
-				userTurnRequestIntents[intentsKey] = &Cnt{
-					Turns:     1,
-					Dialogues: 1,
-				}
-			} else {
-				userTurnRequestIntents[intentsKey].Turns++
-				if _, ok := intentsMap[intentsKey]; !ok {
-					userTurnRequestIntents[intentsKey].Dialogues++
-				}
-			}
-			intentsMap[intentsKey] = true
 		}
+		sort.Strings(requestSlots)
+		return strings.Join(requestSlots, ",")
 	}
-	os.MkdirAll(outputDir, 0755)
-	b, _ := json.MarshalIndent(userTurnRequestSlots, "", "  ")
-	outputFile := path.Join(outputDir, inputFile+"_userRequestedSlots.json")
-	if err := ioutil.WriteFile(outputFile, b, 0755); err != nil {
-		log.Fatal("Failed to write file ", outputFile, err)
-	}
-	log.Println("Wrote user request slots to", outputFile)
 
-	b, _ = json.MarshalIndent(userTurnRequestIntents, "", "  ")
-	outputFile = path.Join(outputDir, inputFile+"_userRequestedIntentss.json")
-	if err := ioutil.WriteFile(outputFile, b, 0755); err != nil {
-		log.Fatal("Failed to write file ", outputFile, err)
+	requestIntentsExtractor := func(turn *crosswoz.Message) string {
+		var requestIntents []string
+		for _, act := range turn.DialogActs {
+			if act.Act == "Request" {
+				requestIntents = sgd.AppendIfNotExists(requestIntents, act.Intent)
+			}
+		}
+		sort.Strings(requestIntents)
+		return strings.Join(requestIntents, ",")
 	}
-	log.Println("Wrote user request intents to", outputFile)
+
+	AnalyseUserTurns(dialogues, inputFile, outputDir, "userRequestedSlots", requestSlotsExtractor, true)
+	AnalyseUserTurns(dialogues, inputFile, outputDir, "userRequestedIntentss", requestIntentsExtractor, true)
 }
 
-func AnalyseUserTurns(dialogues []*crosswoz.Dialogue, inputFile string, outputDir string) {
-	var userTurnActs = make(map[string]*Cnt)
+func AnalyseUserTurnActCombinations(dialogues []*crosswoz.Dialogue, inputFile string, outputDir string) {
+	AnalyseUserTurns(dialogues, inputFile, outputDir, "userActCombinations", func(turn *crosswoz.Message) string {
+		actMap := make(map[string]bool)
+		for _, act := range turn.DialogActs {
+			actMap[act.Act] = true
+		}
+		var acts []string
+		for act := range actMap {
+			acts = append(acts, act)
+		}
+		sort.Strings(acts)
+		return strings.Join(acts, ",")
+	}, false)
+}
+
+func AnalyseUserTurns(dialogues []*crosswoz.Dialogue, inputFile string, outputDir string, subject string, subjectExtractor func(turn *crosswoz.Message) string, ignoreEmptySubject bool) {
+	var aggregationForAllDialogues = make(map[string]*Cnt)
 	for _, dialog := range dialogues {
-		log.Println("~~~", dialog.DialogueID)
-		actCombinations := make(map[string]bool)
+		log.Println("----- analysing", dialog.DialogueID, "for subject:", subject)
+		seen := make(map[string]bool)
 		for _, turn := range dialog.Turns {
 			if turn.Speaker != "usr" {
 				continue
 			}
-			actMap := make(map[string]bool)
-			for _, act := range turn.DialogActs {
-				actMap[act.Act] = true
+			subjectValue := subjectExtractor(turn)
+			if ignoreEmptySubject && subjectValue == "" {
+				continue
 			}
-			var acts []string
-			for act := range actMap {
-				acts = append(acts, act)
-			}
-			sort.Strings(acts)
-			combination := strings.Join(acts, ",")
-			log.Println("---", combination)
-			if _, ok := userTurnActs[combination]; !ok {
-				userTurnActs[combination] = &Cnt{Turns: 1, Dialogues: 1}
+			log.Println(subjectValue)
+			if _, ok := aggregationForAllDialogues[subjectValue]; !ok {
+				aggregationForAllDialogues[subjectValue] = &Cnt{Turns: 1, Dialogues: 1}
 			} else {
-				userTurnActs[combination].Turns++
-				if _, ok := actCombinations[combination]; !ok {
-					log.Println("---!!!", combination)
-					userTurnActs[combination].Dialogues++
+				aggregationForAllDialogues[subjectValue].Turns++
+				if _, ok := seen[subjectValue]; !ok {
+					log.Println("new seen subject:", subjectValue)
+					aggregationForAllDialogues[subjectValue].Dialogues++
 				}
 			}
-			actCombinations[combination] = true
+			seen[subjectValue] = true
 		}
 	}
 	os.MkdirAll(outputDir, 0755)
-	b, _ := json.MarshalIndent(userTurnActs, "", "  ")
-	outputFile := path.Join(outputDir, inputFile+"_userActCombinations.json")
+	b, _ := json.MarshalIndent(aggregationForAllDialogues, "", "  ")
+	outputFile := path.Join(outputDir, inputFile+"_"+subject+".json")
 	if err := ioutil.WriteFile(outputFile, b, 0755); err != nil {
 		log.Fatal("Failed to write file ", outputFile, err)
 	}
-	log.Println("Wrote user act combinations to", outputFile)
+	log.Println("Wrote "+subject+" aggregation to", outputFile)
 }

@@ -76,19 +76,19 @@
     "dialogs": 13
   },
   {
-    "domains": "出租,地铁,餐馆",
-    "dialogs": 1
-  },
-  {
-    "domains": "地铁,景点",
-    "dialogs": 1
-  },
-  {
     "domains": "出租,地铁,景点",
     "dialogs": 1
   },
   {
+    "domains": "出租,地铁,餐馆",
+    "dialogs": 1
+  },
+  {
     "domains": "出租,景点",
+    "dialogs": 1
+  },
+  {
+    "domains": "地铁,景点",
     "dialogs": 1
   },
   {
