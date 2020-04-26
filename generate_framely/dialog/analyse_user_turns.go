@@ -3,7 +3,7 @@ package dialog
 import (
 	"encoding/json"
 	"github.com/framely/sgdnlu/generate_framely/sgd"
-	"github.com/krystollia/CrossWOZ/generate_framely/crosswoz"
+	"github.com/naturali/CrossWOZ/generate_framely/crosswoz"
 	"io/ioutil"
 	"log"
 	"os"

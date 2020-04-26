@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/framely/sgdnlu/generate_framely/framely"
 	"github.com/framely/sgdnlu/generate_framely/framely/p"
-	"github.com/krystollia/CrossWOZ/generate_framely/crosswoz"
-	"github.com/krystollia/CrossWOZ/generate_framely/dialog"
-	"github.com/krystollia/CrossWOZ/generate_framely/generate"
+	"github.com/naturali/CrossWOZ/generate_framely/crosswoz"
+	"github.com/naturali/CrossWOZ/generate_framely/dialog"
+	"github.com/naturali/CrossWOZ/generate_framely/generate"
 	"log"
 )
 
