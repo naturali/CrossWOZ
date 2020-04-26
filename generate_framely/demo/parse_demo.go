@@ -390,29 +390,18 @@ func main() {
 	//inputFileName := "train"
 
 	outputDir := "agents"
-	b, err := ioutil.ReadFile(path.Join(inputDir, inputFileName+".json"))
-	if err != nil {
-		log.Fatal("Failed to read file, err:", err)
-	}
-	var rawDialogues map[string]*crosswoz.RawDialogue
-	if err := json.Unmarshal(b, &rawDialogues); err != nil {
-		log.Fatal("Failed to unmarshal rawDialogues, err:", err)
-	}
+	inputFileFullName := path.Join(inputDir, inputFileName+".json")
+	var rawDialogues = crosswoz.ListRawDialogues(inputFileFullName)
 	listDomainCombinations(rawDialogues, inputFileName)
-	var dialogues []*crosswoz.Dialogue
-	for dialogID, rawDialogue := range rawDialogues {
-		dialogue := crosswoz.TransformDialogue(dialogID, rawDialogue)
-		dialogues = append(dialogues, dialogue)
-	}
-	sort.Slice(dialogues, func(i, j int) bool {
-		return dialogues[i].DialogueID < dialogues[j].DialogueID
-	})
+
+	var dialogues = crosswoz.ReadDialogues(inputFileFullName)
+
 	mergedSlotGroups := AnalyseGoals(dialogues, inputDir, inputFileName)
 
 	GenerateIntents(mergedSlotGroups, inputFileName, outputDir)
 
 	fileName := path.Join(inputDir, "processed_"+inputFileName+".json")
-	b, err = json.MarshalIndent(dialogues, "", "  ")
+	b, err := json.MarshalIndent(dialogues, "", "  ")
 	if err != nil {
 		log.Fatal("Failed to marshal dialogues, err:", err)
 	}
