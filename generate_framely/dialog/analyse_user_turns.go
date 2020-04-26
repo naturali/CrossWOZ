@@ -18,6 +18,11 @@ type Cnt struct {
 	Utterances []string `json:"-"`
 }
 
+var (
+	AllSlots   map[string]bool
+	AllIntents map[string]bool
+)
+
 func AnalyseUserTurnActCombinations(dialogues []*crosswoz.Dialogue, inputFile string, outputDir string) {
 	AggregateUserTurns(dialogues, inputFile, outputDir, "userActCombinations", func(turn *crosswoz.Message, turnIdx int) string {
 		actMap := make(map[string]bool)
@@ -57,6 +62,9 @@ func slotExtractorForSpecificAct(actType string) func(turn *crosswoz.Message, tu
 				if actType == "Select" {
 					log.Printf("Select %s = %s, %s %d", slotName, act.Value, turn.Utterance, turnIdx)
 				}
+				if AllSlots != nil && !AllSlots[slotName] && !strings.HasSuffix(slotName, "源领域") {
+					log.Fatal("Unknown slot:", slotName, turn.Utterance)
+				}
 				requestSlots = sgd.AppendIfNotExists(requestSlots, slotName)
 			}
 		}
@@ -70,6 +78,9 @@ func intentExtractorForSpecificAct(actType string) func(turn *crosswoz.Message, 
 		var requestIntents []string
 		for _, act := range turn.DialogActs {
 			if act.Act == actType {
+				if AllIntents != nil && !AllIntents[act.Intent] {
+					log.Fatal("Unknown intent:", act.Intent, turn.Utterance)
+				}
 				requestIntents = sgd.AppendIfNotExists(requestIntents, act.Intent)
 			}
 		}
@@ -91,14 +102,18 @@ func AggregateUserTurns(dialogues []*crosswoz.Dialogue, inputFile string, output
 			if ignoreEmptySubject && subjectValue == "" {
 				continue
 			}
-			log.Println(subjectValue)
+			//log.Println(subjectValue)
 			if _, ok := aggregationForAllDialogues[subjectValue]; !ok {
-				aggregationForAllDialogues[subjectValue] = &Cnt{Turns: 1, Dialogues: 1}
+				aggregationForAllDialogues[subjectValue] = &Cnt{
+					Turns:      1,
+					Dialogues:  1,
+					Utterances: []string{turn.Utterance},
+				}
 			} else {
 				aggregationForAllDialogues[subjectValue].Turns++
 				aggregationForAllDialogues[subjectValue].Utterances = sgd.AppendIfNotExists(aggregationForAllDialogues[subjectValue].Utterances, turn.Utterance)
 				if _, ok := seen[subjectValue]; !ok {
-					log.Println("new seen subject:", subjectValue)
+					log.Println("new seen", subject, ":", subjectValue)
 					aggregationForAllDialogues[subjectValue].Dialogues++
 				}
 			}

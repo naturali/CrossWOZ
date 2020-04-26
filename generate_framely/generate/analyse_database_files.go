@@ -1,13 +1,13 @@
-package schema
+package generate
 
 import (
 	"encoding/json"
-	"github.com/framely/sgdnlu/generate_framely/framely"
 	"github.com/framely/sgdnlu/generate_framely/framely/p"
 	"io/ioutil"
 	"log"
 	"os"
 	"path"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -31,7 +31,7 @@ type Entity struct {
 
 func entityID(domainName string, entityName string) string {
 	if entityName == "名称" {
-		return domainName + ".名称"
+		return domainName + "名称"
 	}
 	if strings.HasPrefix(entityName, "周边") {
 		return strings.TrimPrefix(entityName, "周边") + "名称"
@@ -45,36 +45,37 @@ func entityID(domainName string, entityName string) string {
 var agentName = "crossDomain"
 
 func (domain *Domain) IntentMeta() *p.IntentMeta {
-	if domain.Domain == "出租" {
+	if domain.Domain == "出租车" {
 		intentName := "呼叫出租车"
+		intentID := "出租"
 		return &p.IntentMeta{
-			MetaId: agentName + "." + intentName,
+			MetaId: intentID,
 			Name:   intentName,
 			Type:   "intent",
 			Slots: []*p.FramelySlot{
 				{
-					AttributeId:   intentName + ".出发地",
+					AttributeId:   intentID + ".出发地",
 					Name:          "出发地",
 					TypeId:        "System.地名",
 					AllowAskSlot:  true,
 					AskSlotPrompt: []string{"从哪里出发？"},
 				},
 				{
-					AttributeId:   intentName + ".目的地",
+					AttributeId:   intentID + ".目的地",
 					Name:          "目的地",
 					TypeId:        "System.地名",
 					AllowAskSlot:  true,
 					AskSlotPrompt: []string{"去哪里？"},
 				},
 				{
-					AttributeId:   intentName + ".车型",
+					AttributeId:   intentID + ".车型",
 					Name:          "车型",
 					TypeId:        "System.String",
 					AllowAskSlot:  true,
 					AskSlotPrompt: []string{"什么车型？"},
 				},
 				{
-					AttributeId:   intentName + ".车牌",
+					AttributeId:   intentID + ".车牌",
 					Name:          "车牌",
 					TypeId:        "System.String",
 					AllowAskSlot:  true,
@@ -83,24 +84,89 @@ func (domain *Domain) IntentMeta() *p.IntentMeta {
 			},
 		}
 	}
+
+	if domain.Domain == "地铁" {
+		intentName := "查询地铁"
+		intentID := "地铁"
+		return &p.IntentMeta{
+			MetaId: intentID,
+			Name:   intentName,
+			Type:   "intent",
+			Slots: []*p.FramelySlot{
+				{
+					AttributeId:   intentID + "." + "出发地",
+					Name:          "出发地",
+					TypeId:        "System.String", // TODO? 什么类型，XX名称？父类？
+					AllowAskSlot:  true,
+					AskSlotPrompt: []string{"从哪里出发？"},
+				},
+				{
+					AttributeId:  intentID + "." + "出发地附近地铁站",
+					Name:         "出发地附近地铁站",
+					TypeId:       "System.String", // TODO? 什么类型，地铁站？
+					AllowAskSlot: false,
+				},
+				{
+					AttributeId:   intentID + "." + "目的地",
+					Name:          "目的地",
+					TypeId:        "System.String", // TODO? 什么类型，XX名称？父类？
+					AllowAskSlot:  true,
+					AskSlotPrompt: []string{"到哪里？"},
+				},
+				{
+					AttributeId:  intentID + "." + "目的地附近地铁站",
+					Name:         "目的地附近地铁站",
+					TypeId:       "System.String", // TODO? 什么类型，XX名称？父类？
+					AllowAskSlot: false,
+				},
+			},
+		}
+	}
+
 	intentName := "找" + domain.Domain
+	intentID := domain.Domain
 	intent := &p.IntentMeta{
-		MetaId: agentName + "." + intentName,
+		MetaId: intentID,
 		Name:   intentName,
 		Type:   "intent",
 	}
 	// slots
 	for _, ent := range domain.Entities {
-		intent.Slots = append(intent.Slots, &p.FramelySlot{
-			AttributeId:       intent.MetaId + "." + ent.Name,
-			Name:              ent.Name,
-			TypeId:            entityID(domain.Domain, ent.Name),
-			AllowAskSlot:      true,
-			AskSlotPrompt:     []string{domain.Domain + "的" + ent.Name + "是什么？"},
-			AllowMultiValue:   ent.IsMulti,
-			MultiValuePrompts: []string{"还有什么" + ent.Name},
-		})
+		slot := &p.FramelySlot{
+			AttributeId:     intent.MetaId + "." + ent.Name,
+			Name:            ent.Name,
+			TypeId:          entityID(domain.Domain, ent.Name),
+			AllowAskSlot:    true,
+			AskSlotPrompt:   []string{domain.Domain + "的" + ent.Name + "是什么？"},
+			AllowMultiValue: ent.IsMulti,
+		}
+		if slot.TypeId == "System.Boolean" {
+			slot.AskSlotPrompt = []string{"有" + ent.Name + "吗？"}
+		}
+		if slot.Name == "地铁" {
+			slot.AskSlotPrompt = []string{
+				"这个" + domain.Domain + "附近的地铁站是哪个？",
+			}
+		}
+		if slot.Name == "门票" {
+			slot.AskSlotPrompt = []string{
+				"这个" + domain.Domain + "的门票多少钱？",
+			}
+		}
+		if slot.Name == "评分" {
+			slot.AskSlotPrompt = []string{
+				"这个" + domain.Domain + "的评分是多少？",
+			}
+		}
+		intent.Slots = append(intent.Slots, slot)
+		if ent.IsMulti {
+			slot.AskSlotPrompt = []string{domain.Domain + "的" + ent.Name + "有哪些？"}
+			slot.MultiValuePrompts = []string{"还有哪些" + ent.Name}
+		}
 	}
+	sort.Slice(intent.Slots, func(i, j int) bool {
+		return intent.Slots[i].Name < intent.Slots[j].Name
+	})
 	return intent
 }
 
@@ -142,6 +208,14 @@ func BasicTypeMetas(entities map[string]*Entity, outputDir string) []*p.BasicTyp
 			IsDynamic:     false,
 			IsCategorical: false, // TODO 可能需要手动修正
 		}
+		if ent.Name == "System.地名" {
+			// 抽象的"地名"，可以是景点名称、酒店名称、餐馆名称
+			typeMeta.Sons = []string{
+				"景点名称",
+				"酒店名称",
+				"餐馆名称",
+			}
+		}
 		// categorical?
 		if len(ent.PossibleValues) > 0 && len(ent.PossibleValues) < 10 {
 			typeMeta.IsCategorical = true
@@ -149,10 +223,19 @@ func BasicTypeMetas(entities map[string]*Entity, outputDir string) []*p.BasicTyp
 		typeMetas = append(typeMetas, typeMeta)
 		outputEntityExamples(ent, outputDir)
 	}
+	sort.Slice(typeMetas, func(i, j int) bool {
+		if strings.HasPrefix(typeMetas[i].TypeName, "System.") && !strings.HasPrefix(typeMetas[j].TypeName, "System.") {
+			return true
+		} else if !strings.HasPrefix(typeMetas[i].TypeName, "System.") && strings.HasPrefix(typeMetas[j].TypeName, "System.") {
+			return false
+		} else {
+			return typeMetas[i].TypeName < typeMetas[j].TypeName
+		}
+	})
 	return typeMetas
 }
 
-func GenerateAgent(inputDir string, outputDir string) {
+func GenerateAgent(inputDir string, outputDir string) *p.Agent {
 	fileInfos, err := ioutil.ReadDir(inputDir)
 	if err != nil {
 		log.Fatal(err)
@@ -203,10 +286,12 @@ func GenerateAgent(inputDir string, outputDir string) {
 		}
 	}
 
+	sort.Slice(agent.Intents, func(i, j int) bool {
+		return agent.Intents[i].MetaId < agent.Intents[j].MetaId
+	})
 	agent.Entities = BasicTypeMetas(allEntities, outputDir)
 	agent.Agent.Description = "由 CrossWOZ 生成的 agent，涉及如下领域：" + strings.Join(domainNames, ",")
-	framely.OutputAgent(agent, outputDir)
-
+	return agent
 }
 
 func ReadADomain(fileName string) *Domain {
@@ -215,10 +300,6 @@ func ReadADomain(fileName string) *Domain {
 		return &Domain{
 			Domain: "出租车",
 			Entities: map[string]*Entity{
-				"System.地名": {
-					Name:    "System.地名",
-					IsMulti: false,
-				},
 				"System.String": {
 					Name:    "System.String",
 					IsMulti: false,
@@ -269,6 +350,7 @@ func ParseRawEntry(rawEntry *RawEntry, domain *Domain) {
 			continue
 		}
 		if k == "酒店设施" { // 酒店设施 特殊处理
+			log.Println("~~~ 酒店设施", v, kvs["名称"])
 			for _, subEntity := range v.([]interface{}) {
 				entityName := "酒店设施-" + subEntity.(string)
 				if _, ok := domain.Entities[entityName]; !ok {
@@ -280,7 +362,7 @@ func ParseRawEntry(rawEntry *RawEntry, domain *Domain) {
 			}
 			continue
 		}
-		if k == "推荐菜" { // 推荐菜
+		if k == "推荐菜" { // 推荐菜,多值处理
 			entityName := "推荐菜"
 			if _, ok := domain.Entities[entityName]; !ok {
 				domain.Entities[entityName] = &Entity{
@@ -292,6 +374,19 @@ func ParseRawEntry(rawEntry *RawEntry, domain *Domain) {
 			for _, dish := range v.([]interface{}) {
 				domain.Entities[entityName].PossibleValues[dish.(string)] = true
 			}
+			continue
+		}
+		if domain.Domain == "地铁" { // 地铁 domain 特殊处理
+			if k == "名称" {
+				k = "System.地名"
+			} else if k == "地铁" {
+				k = "地铁站名"
+			} else {
+				log.Fatal(domain.Domain, k)
+			}
+		}
+		if k == "地铁" {
+			// 其他domain中的地铁，只是上下文关联关系，并不属于其他domain的slot，因为对话中没有对比如 "景点.地铁" 的Inform或Request或Select操作
 			continue
 		}
 		ent := domain.Entities[k]
