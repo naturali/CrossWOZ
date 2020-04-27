@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-// Analyse crosswoz/database files to generate agent, entities
+// Analyse crosswoz/database files to generate agent, entities, intents
 
 type RawEntry []interface{}
 

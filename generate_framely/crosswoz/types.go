@@ -62,6 +62,19 @@ func (turn *Message) RelatedIntents() []string {
 	return intents
 }
 
+func (turn *Message) GetDialogActs() []string {
+	actMap := make(map[string]bool)
+	for _, act := range turn.DialogActs {
+		actMap[act.Act] = true
+	}
+	var acts []string
+	for act := range actMap {
+		acts = append(acts, act)
+	}
+	sort.Strings(acts)
+	return acts
+}
+
 type RawMessage struct {
 	Content      string          `json:"content"`
 	RawDialogAct [][]string      `json:"dialog_act"`
@@ -217,4 +230,13 @@ func ParseSlot(rawSlot []interface{}, dialogID string, idx int) *Slot {
 		slot.Filled = v
 	}
 	return slot
+}
+
+func MapKeysSorted(m map[string]bool) []string {
+	var keys []string
+	for k := range m {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	return keys
 }

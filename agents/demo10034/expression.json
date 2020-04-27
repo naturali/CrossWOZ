@@ -1,0 +1,221 @@
+[
+  {
+    "owner_id": "餐馆",
+    "utterance": "我想吃麻婆豆腐，哪家店麻婆豆腐好吃呢？",
+    "annotations": [
+      {
+        "fr": 9,
+        "to": 21,
+        "label": "餐馆.推荐菜"
+      }
+    ],
+    "context": {
+      "frame_id": "triggering"
+    }
+  },
+  {
+    "owner_id": "餐馆",
+    "utterance": "哪家店的人均消费在100-150元的呢？评分要是4.5分以上就更好了。",
+    "annotations": [
+      {
+        "fr": 27,
+        "to": 37,
+        "label": "餐馆.人均消费"
+      },
+      {
+        "fr": 58,
+        "to": 70,
+        "label": "餐馆.评分"
+      }
+    ],
+    "context": {
+      "frame_id": "triggering"
+    }
+  },
+  {
+    "owner_id": "餐馆",
+    "utterance": "那也行吧，四川人家周边有啥好玩的地方嘛？",
+    "annotations": [
+      {
+        "fr": 15,
+        "to": 27,
+        "label": "餐馆.名称"
+      }
+    ],
+    "context": {
+      "frame_id": "餐馆"
+    }
+  },
+  {
+    "owner_id": "景点",
+    "utterance": "好吧，那我去别的地方玩吧！给我找一个评分是5分的，不免票的景点。",
+    "annotations": [
+      {
+        "fr": 63,
+        "to": 67,
+        "label": "景点.评分"
+      },
+      {
+        "fr": 73,
+        "to": 82,
+        "label": "景点.门票"
+      }
+    ],
+    "context": {
+      "frame_id": "triggering"
+    }
+  },
+  {
+    "owner_id": "景点",
+    "utterance": "北京古代建筑博物馆游玩多长时间好呢？",
+    "annotations": [
+      {
+        "to": 27,
+        "label": "景点.名称"
+      }
+    ],
+    "context": {
+      "frame_id": "景点"
+    }
+  },
+  {
+    "owner_id": "景点",
+    "utterance": "北京古代建筑博物馆周边还有什么景点可以玩的吗？",
+    "annotations": [
+      {
+        "to": 27,
+        "label": "景点.名称"
+      }
+    ],
+    "context": {
+      "frame_id": "景点"
+    }
+  },
+  {
+    "owner_id": "酒店",
+    "utterance": "我还得找个住的地方，给我推荐一个评分4.5分以上的酒店，最好这家酒店可以接待外宾、提供宽带上网。",
+    "annotations": [
+      {
+        "fr": 54,
+        "to": 66,
+        "label": "酒店.评分"
+      }
+    ],
+    "context": {
+      "frame_id": "triggering"
+    }
+  },
+  {
+    "owner_id": "System.Boolean",
+    "utterance": "我还得找个住的地方，给我推荐一个评分4.5分以上的酒店，最好这家酒店可以接待外宾、提供宽带上网。",
+    "context": {
+      "frame_id": "酒店",
+      "attribute_id": "酒店.酒店设施-宽带上网"
+    },
+    "label": "YES"
+  },
+  {
+    "owner_id": "System.Boolean",
+    "utterance": "我还得找个住的地方，给我推荐一个评分4.5分以上的酒店，最好这家酒店可以接待外宾、提供宽带上网。",
+    "context": {
+      "frame_id": "酒店",
+      "attribute_id": "酒店.酒店设施-接待外宾"
+    },
+    "label": "YES"
+  },
+  {
+    "owner_id": "酒店",
+    "utterance": "北京丽晶酒店周边有可以游玩的景点吗？餐馆呢？",
+    "annotations": [
+      {
+        "to": 18,
+        "label": "酒店.名称"
+      }
+    ],
+    "context": {
+      "frame_id": "酒店"
+    }
+  },
+  {
+    "owner_id": "出租",
+    "utterance": "我准备乘出租车从北京古代建筑博物馆到北京丽晶酒店，帮我叫个车，顺便告诉我一下车牌和车型。",
+    "annotations": [
+      {
+        "fr": 24,
+        "to": 51,
+        "label": "出租.出发地"
+      },
+      {
+        "fr": 54,
+        "to": 72,
+        "label": "出租.目的地"
+      }
+    ],
+    "context": {
+      "frame_id": "出租"
+    }
+  },
+  {
+    "owner_id": "酒店",
+    "utterance": "在北京丽晶酒店周边的餐馆，能不能吃到好吃的生北极贝啊？",
+    "annotations": [
+      {
+        "fr": 3,
+        "to": 21,
+        "label": "酒店.名称"
+      }
+    ],
+    "context": {
+      "frame_id": "酒店"
+    }
+  },
+  {
+    "owner_id": "餐馆",
+    "utterance": "在北京丽晶酒店周边的餐馆，能不能吃到好吃的生北极贝啊？",
+    "annotations": [
+      {
+        "fr": 63,
+        "to": 75,
+        "label": "餐馆.推荐菜"
+      }
+    ],
+    "context": {
+      "frame_id": "餐馆"
+    }
+  },
+  {
+    "owner_id": "餐馆",
+    "utterance": "这些店有人均消费50-100元的吗？",
+    "annotations": [
+      {
+        "fr": 24,
+        "to": 33,
+        "label": "餐馆.人均消费"
+      }
+    ],
+    "context": {
+      "frame_id": "餐馆"
+    }
+  },
+  {
+    "owner_id": "餐馆",
+    "utterance": "那就奢侈一回。大渔铁板烧(蓝色港湾店)在什么地方？",
+    "annotations": [
+      {
+        "fr": 21,
+        "to": 53,
+        "label": "餐馆.名称"
+      }
+    ],
+    "context": {
+      "frame_id": "餐馆"
+    }
+  },
+  {
+    "owner_id": "餐馆",
+    "utterance": "这家店周边还有餐馆吗？",
+    "context": {
+      "frame_id": "餐馆"
+    }
+  }
+]

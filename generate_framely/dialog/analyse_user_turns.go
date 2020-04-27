@@ -25,15 +25,7 @@ var (
 
 func AnalyseUserTurnActCombinations(dialogues []*crosswoz.Dialogue, inputFile string, outputDir string) {
 	AggregateUserTurns(dialogues, inputFile, outputDir, "userActCombinations", func(turn *crosswoz.Message, turnIdx int) string {
-		actMap := make(map[string]bool)
-		for _, act := range turn.DialogActs {
-			actMap[act.Act] = true
-		}
-		var acts []string
-		for act := range actMap {
-			acts = append(acts, act)
-		}
-		sort.Strings(acts)
+		acts := turn.GetDialogActs()
 		return strings.Join(acts, ",")
 	}, false)
 }

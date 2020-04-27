@@ -36,20 +36,11 @@ type MergedSlotGroup struct {
 	SrcDialogues []string
 }
 
-func MapKeysSorted(m map[string]bool) []string {
-	var keys []string
-	for k := range m {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
-	return keys
-}
-
 func NewMergedSlotGroup(group *SlotGroup) *MergedSlotGroup {
 	mergedGroup := MergedSlotGroup{
 		IDs:          []int{group.ID},
 		GroupName:    group.GroupName,
-		SrcDialogues: MapKeysSorted(group.SrcDialogues),
+		SrcDialogues: crosswoz.MapKeysSorted(group.SrcDialogues),
 	}
 	for _, slot := range group.SlotNames {
 		mergedGroup.Slots = append(mergedGroup.Slots, slot)
