@@ -21,7 +21,7 @@ var (
 		"\t agent: generate agent based on the database files\n"+
 		"\t aggregate: aggregate dialogues to find out dialogue act combinations and intent/slot combinations\n"+
 		"\t full: run the full task including all the above ones")
-	dialogueFile = flag.String("dialog-file", "demo10034", "the dialogue json file name")
+	dialogueFile = flag.String("dialog-file", "test", "the dialogue json file name")
 )
 
 func main() {
@@ -39,21 +39,27 @@ func main() {
 		inputFile := *dialogueFile
 		dialogues := crosswoz.ReadDialogues("data/crosswoz/" + inputFile + ".json")
 		expressions := generate.GenerateExpressions(nil, nil, dialogues)
-		//for _, exp := range expressions {
-		//	framely.ConvertExpressionAnnotationsToDollars(exp, func(annoLabel string) string {
-		//		return annoLabel
-		//	}, true)
-		//}
-		b, _ := json.MarshalIndent(expressions, "", "  ")
-		outputDir := path.Join("agents", inputFile)
-		os.MkdirAll(outputDir, 0755)
-		outputFile := path.Join(outputDir, "expression.json")
 
-		if err := ioutil.WriteFile(outputFile, b, 0755); err != nil {
-			log.Fatal("Failed to write expressions:", err)
+		if true {
+			for _, exp := range expressions {
+				framely.ConvertExpressionAnnotationsToDollars(exp, func(annoLabel string) string {
+					return annoLabel
+				}, false)
+			}
+			framely.OutputExpressions(expressions, "agents", inputFile)
+		} else {
+			// only for debug, keep annotations, don't group by owners
+			b, _ := json.MarshalIndent(expressions, "", "  ")
+			outputDir := path.Join("agents", inputFile)
+			os.MkdirAll(outputDir, 0755)
+			outputFile := path.Join(outputDir, "expression.json")
+
+			if err := ioutil.WriteFile(outputFile, b, 0755); err != nil {
+				log.Fatal("Failed to write expressions:", err)
+			}
+			log.Println("Wrote expressions to", outputFile)
 		}
-		log.Println("Wrote expressions to", outputFile)
-		//framely.OutputExpressions(expressions, "agents", inputFile)
+
 	}
 
 }

@@ -82,12 +82,12 @@ func ExtractExpressions(turn *crosswoz.Message) (expressions []*p.FramelyExpress
 	turn.Utterance = strings.Replace(turn.Utterance, "~", "-", -1)
 
 	if originUtterance != turn.Utterance {
-		log.Println("!!!", originUtterance, " -> ", turn.Utterance)
+		log.Println("utterance preprocess:", originUtterance, " -> ", turn.Utterance)
 	}
 
 	if len(detail.RequestedIntents) == 1 {
 		triggeringIntent = detail.RequestedIntents[0]
-		log.Println("triggering intent:", triggeringIntent)
+		//log.Println("triggering intent:", triggeringIntent)
 		exp := &p.FramelyExpression{
 			OwnerId:   triggeringIntent,
 			Utterance: turn.Utterance,
@@ -98,12 +98,12 @@ func ExtractExpressions(turn *crosswoz.Message) (expressions []*p.FramelyExpress
 				FrameId: triggeringIntent,
 			}
 		} else {
-			exp.Context = &p.ExpressionContext{FrameId: "triggering"}
+			//exp.Context = &p.ExpressionContext{FrameId: "triggering"}
 		}
 		if slots, ok := detail.InformedSlotValues[triggeringIntent]; ok {
 			exp.Annotations = ExtractSlotAnnotations(turn.Utterance, slots.SlotValues, triggeringIntent)
 		} else {
-			log.Println("requesting with no informed slots~~~~~~~~~~~~~~~", turn.Utterance)
+			//log.Println("requesting with no informed slots~~~~~~~~~~~~~~~", turn.Utterance)
 		}
 		expressions = append(expressions, exp)
 	}
@@ -117,7 +117,7 @@ func ExtractExpressions(turn *crosswoz.Message) (expressions []*p.FramelyExpress
 		if intent == triggeringIntent { // 上面已经处理过
 			continue
 		}
-		log.Println("informed intent:", intent)
+		//log.Println("informed intent:", intent)
 		exp := &p.FramelyExpression{
 			OwnerId: intent,
 			Context: &p.ExpressionContext{
@@ -160,6 +160,7 @@ func IsBoolean(slotName, slotValue string) bool {
 
 // find slot annotations
 func ExtractSlotAnnotations(utterance string, slots map[string]string, intent string) (annotations []*p.SlotAnnotation) {
+	originUtterance := utterance
 	for slotName, slotValue := range slots {
 		if IsBoolean(slotName, slotValue) {
 			continue
@@ -168,13 +169,21 @@ func ExtractSlotAnnotations(utterance string, slots map[string]string, intent st
 		if slotValue == "不免费" {
 			slotValue = "不免票"
 		}
-		if fr := strings.Index(utterance, slotValue); fr != -1 {
-			annotations = append(annotations, &p.SlotAnnotation{
-				Fr:    int32(fr),
-				To:    int32(fr + len(slotValue)),
-				Label: intent + "." + slotName,
-			})
-			utterance = utterance[0:fr] + strings.Repeat("#", len(slotValue)) + utterance[(fr+len(slotValue)):]
+		if strings.Index(utterance, slotValue) != -1 {
+			cnt := 0
+			for strings.Index(utterance, slotValue) != -1 {
+				cnt++
+				if cnt > 1 {
+					log.Println("~~~~~~~~~~~~~~~ more than one slot values", originUtterance, slotValue)
+				}
+				fr := strings.Index(utterance, slotValue)
+				annotations = append(annotations, &p.SlotAnnotation{
+					Fr:    int32(fr),
+					To:    int32(fr + len(slotValue)),
+					Label: intent + "." + slotName,
+				})
+				utterance = utterance[0:fr] + strings.Repeat("#", len(slotValue)) + utterance[(fr+len(slotValue)):]
+			}
 		} else {
 			log.Println("!!!!can not find slot value in the utterance: ", utterance, " slotValue: ", slotValue, " slot: ", slotName)
 		}

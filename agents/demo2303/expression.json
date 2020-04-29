@@ -1,44 +1,53 @@
-[
-  {
-    "owner_id": "餐馆",
-    "utterance": "你好，我想吃$餐馆.推荐菜$，帮我推荐一个人均消费在$餐馆.人均消费$的餐馆，谢谢。",
-    "context": {
-      "frame_id": "triggering"
+{
+  "agent_id": "demo2303",
+  "expressions": [
+    {
+      "owner_id": "景点",
+      "expressions": [
+        {
+          "utterance": "哦，我想在这些附近景点里找一个$景点.评分$的，有吗？",
+          "context": {
+            "frame_id": "景点"
+          }
+        },
+        {
+          "utterance": "好的，电话和地址告诉我一下。",
+          "context": {
+            "frame_id": "景点"
+          }
+        }
+      ]
+    },
+    {
+      "owner_id": "酒店",
+      "expressions": [
+        {
+          "utterance": "好的，麻烦你帮我查一下$酒店.名称$电话呗。",
+          "context": {
+            "frame_id": "酒店"
+          }
+        }
+      ]
+    },
+    {
+      "owner_id": "餐馆",
+      "expressions": [
+        {
+          "utterance": "你好，我想吃$餐馆.推荐菜$，帮我推荐一个人均消费在$餐馆.人均消费$的餐馆，谢谢。"
+        },
+        {
+          "utterance": "营业时间是什么时间？",
+          "context": {
+            "frame_id": "餐馆"
+          }
+        },
+        {
+          "utterance": "他家周边有什么景点吗？",
+          "context": {
+            "frame_id": "餐馆"
+          }
+        }
+      ]
     }
-  },
-  {
-    "owner_id": "餐馆",
-    "utterance": "营业时间是什么时间？",
-    "context": {
-      "frame_id": "餐馆"
-    }
-  },
-  {
-    "owner_id": "餐馆",
-    "utterance": "他家周边有什么景点吗？",
-    "context": {
-      "frame_id": "餐馆"
-    }
-  },
-  {
-    "owner_id": "景点",
-    "utterance": "哦，我想在这些附近景点里找一个$景点.评分$的，有吗？",
-    "context": {
-      "frame_id": "景点"
-    }
-  },
-  {
-    "owner_id": "景点",
-    "utterance": "好的，电话和地址告诉我一下。",
-    "context": {
-      "frame_id": "景点"
-    }
-  },
-  {
-    "owner_id": "酒店",
-    "utterance": "好的，麻烦你帮我查一下$酒店.名称$电话呗。",
-    "context": {
-      "frame_id": "酒店"
-    }
-  }
-]
+  ]
+}
