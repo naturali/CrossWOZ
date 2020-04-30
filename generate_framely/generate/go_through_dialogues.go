@@ -77,13 +77,12 @@ func ExtractExpressions(turn *crosswoz.Message) (expressions []*p.FramelyExpress
 	if len(detail.RequestedIntents) > 1 {
 		log.Fatal("Triggers multiple intents?", turn.Utterance, detail.RequestedIntents)
 	}
-	originUtterance := turn.Utterance
-	turn.Utterance = strings.Replace(turn.Utterance, " ", "", -1)
-	turn.Utterance = strings.Replace(turn.Utterance, "~", "-", -1)
 
-	if originUtterance != turn.Utterance {
-		log.Println("utterance preprocess:", originUtterance, " -> ", turn.Utterance)
-	}
+	// 尝试将utterance中的空格去掉
+	turn.Utterance = strings.Replace(turn.Utterance, " ", "", -1)
+	// utterance里的中文括号替换成英文括号
+	turn.Utterance = strings.Replace(turn.Utterance, "（", "(", -1)
+	turn.Utterance = strings.Replace(turn.Utterance, "）", ")", -1)
 
 	if len(detail.RequestedIntents) == 1 {
 		triggeringIntent = detail.RequestedIntents[0]
@@ -93,7 +92,7 @@ func ExtractExpressions(turn *crosswoz.Message) (expressions []*p.FramelyExpress
 			Utterance: turn.Utterance,
 		}
 		// 是不是真的第一次触发intent
-		if _, ok := detail.RequestedSlots[triggeringIntent]["名称"]; !ok && triggeringIntent != "地铁" {
+		if _, ok := detail.RequestedSlots[triggeringIntent]["名称"]; !ok && triggeringIntent != "地铁" && triggeringIntent != "出租" {
 			exp.Context = &p.ExpressionContext{
 				FrameId: triggeringIntent,
 			}
@@ -161,31 +160,31 @@ func IsBoolean(slotName, slotValue string) bool {
 // find slot annotations
 func ExtractSlotAnnotations(utterance string, slots map[string]string, intent string) (annotations []*p.SlotAnnotation) {
 	originUtterance := utterance
+
 	for slotName, slotValue := range slots {
 		if IsBoolean(slotName, slotValue) {
 			continue
 		}
-		slotValue := strings.Replace(slotValue, " ", "", -1)
-		if slotValue == "不免费" {
-			slotValue = "不免票"
-		}
-		if strings.Index(utterance, slotValue) != -1 {
-			cnt := 0
-			for strings.Index(utterance, slotValue) != -1 {
-				cnt++
-				if cnt > 1 {
-					log.Println("~~~~~~~~~~~~~~~ more than one slot values", originUtterance, slotValue)
-				}
-				fr := strings.Index(utterance, slotValue)
-				annotations = append(annotations, &p.SlotAnnotation{
-					Fr:    int32(fr),
-					To:    int32(fr + len(slotValue)),
-					Label: intent + "." + slotName,
-				})
-				utterance = utterance[0:fr] + strings.Repeat("#", len(slotValue)) + utterance[(fr+len(slotValue)):]
+		slotValue = strings.Replace(slotValue, " ", "", -1)
+		slotValue = strings.Replace(slotValue, "（", "(", -1)
+		slotValue = strings.Replace(slotValue, "）", ")", -1)
+		fr, to := findSpan(utterance, slotName, slotValue)
+		cnt := 0
+		for fr != -1 {
+			cnt++
+			if cnt > 1 {
+				log.Println("~~~~~~~~~~~~~~~ more than one slot values", originUtterance, slotValue)
 			}
-		} else {
-			log.Println("!!!!can not find slot value in the utterance: ", utterance, " slotValue: ", slotValue, " slot: ", slotName)
+			annotations = append(annotations, &p.SlotAnnotation{
+				Fr:    int32(fr),
+				To:    int32(to),
+				Label: intent + "." + slotName,
+			})
+			utterance = utterance[0:fr] + strings.Repeat("#", len(slotValue)) + utterance[(fr+len(slotValue)):]
+			fr, to = findSpan(utterance, slotName, slotValue)
+		}
+		if cnt == 0 {
+			log.Println("!!!!can not find slot value: ", utterance, " slotValue:", slotValue, " slot:", slotName)
 		}
 	}
 	return annotations
